@@ -1,0 +1,94 @@
+program                      -> PROGRAM IS body ';'
+body                         -> declarationClosure BEGIN statementClosure END
+declarationClosure           -> declarationClosure declaration
+                             -> 
+statementClosure             -> statementClosure statement
+                             ->
+declaration                  -> VAR varDeclClosure
+                             -> TYPE typeDeclClosure
+                             -> PROCEDURE procedureDeclClosure
+varDeclClosure               -> varDeclClosure varDecl
+                             ->
+typeDeclClosure              -> typeDeclClosure typeDecl
+                             ->
+procedureDeclClosure         -> procedureDeclClosure procedureDecl
+                             ->
+varDecl                      -> identifier varDeclIDClosure varDeclType0 ':=' expression ';'
+varDeclIDClosure             -> varDeclIDClosure ',' identifier
+                             ->
+varDeclType0                 -> ':' typename
+                             -> 
+typeDecl                     -> identifier IS type ';' 
+procedureDecl                -> identifier formalParams procedureDeclType0 IS body ';'
+procedureDeclType0           -> ':' typename
+                             -> 
+typename                     -> identifier
+type                         -> ARRAY OF typename
+                             -> RECORD component componentClosure END
+componentClosure             -> componentClosure component
+                             -> 
+component                    -> identifier ':' typename ';'
+formalParams                 -> '(' fpSection fpSectionClosure ')' 
+                             -> '(' ')' 
+fpSectionClosure             -> fpSectionClosure ';' fpSection
+                             ->
+fpSection                    -> identifier fpSectionIDClosure ':' typename
+fpSectionIDClosure           -> fpSectionIDClosure ',' identifier
+                             -> 
+statement                    -> lvalue ':=' expression ';'
+                             -> identifier actualParams ';'
+                             -> READ '(' lvalue statementLvalueClosure ')' ';'
+                             -> WRITE writeParams ';'
+                             -> IF expression THEN statementClosure
+                                statementElsifClosure
+                                statementElseO END ';'
+                             -> WHILE expression DO statementClosure END ';'
+                             -> LOOP statementClosure END ';'
+                             -> FOR identifier ':=' expression TO expression statementByO DO statementClosure END ';'
+                             -> EXIT ';'
+                             -> RETURN expressionO ';'
+statementLvalueClosure       -> statementLvalueClosure ',' lvalue
+                             ->
+statementElsifClosure        -> statementElsifClosure ELSIF expression THEN statementClosure
+                             ->
+statementElseO               -> ELSE statementClosure
+                             -> 
+statementByO                 -> BY expression
+                             -> 
+writeParams                  -> '(' writeExpr writeParamsExprClosure ')'
+                             -> '(' ')'
+writeParamsExprClosure       -> writeParamsExprClosure ',' writeExpr
+                             ->
+writeExpr                    -> string
+                             -> expression
+expressionO                  -> expression
+                             -> 
+expression                   -> number
+                             -> lvalue
+                             -> '(' expression ')'
+                             -> unaryOp expression
+                             -> expression binaryOp expression
+                             -> identifier actualParams // Procedure call
+                             -> identifier recordInits
+                             -> identifier arrayInits
+lvalue                       -> identifier
+                             -> lvalue '[' expression ']'
+                             -> lvalue '.' identifier
+actualParams                 -> '(' expression actualParamsExprClosure ')'
+                             -> '(' ')'
+actualParamsExprClosure      -> actualParamsExprClosure ',' expression
+                             ->
+recordInits                  -> '{' identifier ':=' expression recordInitsPairClosure '}'
+recordInitsPairClosure       -> recordInitsPairClosure ';' identifier ':=' expression
+                             -> 
+arrayInits                   -> '[<' arrayInit arrayInitClosure '>]'
+arrayInitClosure             -> arrayInitClosure ',' arrayInit
+                             -> 
+arrayInit                    -> expression
+                             -> expression of expression
+unaryOp                      -> '+' | '-' | NOT
+binaryOp                     -> '+' | '-' |  '*' | '/' | DIV | MOD | OR | AND
+                             -> '>' | '<' | '=' | '>=' | '<=' | '<>'
+number                       -> INTEGER | REAL
+string                       -> STRING
+identifier                   -> ID
