@@ -13,15 +13,13 @@ typeDeclClosure              -> typeDeclClosure typeDecl
                              ->
 procedureDeclClosure         -> procedureDeclClosure procedureDecl
                              ->
-varDecl                      -> identifier varDeclIDClosure varDeclType0 ':=' expression ';'
-varDeclIDClosure             -> varDeclIDClosure ',' identifier
+varDecl                      -> identifier IDClosure typenameOption ':=' expression ';'
+IDClosure                    -> IDClosure ',' identifier
                              ->
-varDeclType0                 -> ':' typename
+typenameOption               -> ':' typename
                              -> 
 typeDecl                     -> identifier IS type ';' 
-procedureDecl                -> identifier formalParams procedureDeclType0 IS body ';'
-procedureDeclType0           -> ':' typename
-                             -> 
+procedureDecl                -> identifier formalParams typenameOption IS body ';'
 typename                     -> identifier
 type                         -> ARRAY OF typename
                              -> RECORD component componentClosure END
@@ -32,28 +30,26 @@ formalParams                 -> '(' fpSection fpSectionClosure ')'
                              -> '(' ')' 
 fpSectionClosure             -> fpSectionClosure ';' fpSection
                              ->
-fpSection                    -> identifier fpSectionIDClosure ':' typename
-fpSectionIDClosure           -> fpSectionIDClosure ',' identifier
-                             -> 
+fpSection                    -> identifier IDClosure ':' typename
 statement                    -> lvalue ':=' expression ';'
                              -> identifier actualParams ';'
                              -> READ '(' lvalue statementLvalueClosure ')' ';'
                              -> WRITE writeParams ';'
                              -> IF expression THEN statementClosure
                                 statementElsifClosure
-                                statementElseO END ';'
+                                statementElseOption END ';'
                              -> WHILE expression DO statementClosure END ';'
                              -> LOOP statementClosure END ';'
-                             -> FOR identifier ':=' expression TO expression statementByO DO statementClosure END ';'
+                             -> FOR identifier ':=' expression TO expression statementByOption DO statementClosure END ';'
                              -> EXIT ';'
-                             -> RETURN expressionO ';'
+                             -> RETURN expressionOption ';'
 statementLvalueClosure       -> statementLvalueClosure ',' lvalue
                              ->
 statementElsifClosure        -> statementElsifClosure ELSIF expression THEN statementClosure
                              ->
-statementElseO               -> ELSE statementClosure
+statementElseOption          -> ELSE statementClosure
                              -> 
-statementByO                 -> BY expression
+statementByOption            -> BY expression
                              -> 
 writeParams                  -> '(' writeExpr writeParamsExprClosure ')'
                              -> '(' ')'
@@ -61,7 +57,7 @@ writeParamsExprClosure       -> writeParamsExprClosure ',' writeExpr
                              ->
 writeExpr                    -> string
                              -> expression
-expressionO                  -> expression
+expressionOption             -> expression
                              -> 
 expression                   -> orOperand
 orOperand                    -> orOperand OR andOperand
@@ -107,7 +103,10 @@ arrayInits                   -> '[<' arrayInit arrayInitClosure '>]'
 arrayInitClosure             -> arrayInitClosure ',' arrayInit
                              -> 
 arrayInit                    -> expression
-                             -> expression of expression
+                             -> expression OF expression
 number                       -> INTEGER | REAL
 string                       -> STRING
 identifier                   -> ID
+constant		                 -> TRUE
+                             -> FALSE
+                             -> NIL
