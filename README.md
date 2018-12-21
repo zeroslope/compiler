@@ -7,3 +7,4 @@ actualParams -> 实参
 2. ebnf -> bnf
   1. varDeclType0 & procedureDeclType0 重复
   2. varDeclIDArray & fpSectionIDArray
+3. bnf -> bnf-fixed 
