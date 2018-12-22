@@ -216,6 +216,7 @@ void yylexUpdateLocation() {
   yylloc.last_line = yylineno;
   yylloc.first_column = yycolumn;
   yylloc.last_column = yycolumn + yyleng - 1;
+  // printf("FLEX: %s\n", yytext);
   yycolumn += yyleng;
 }
 

@@ -62,3 +62,32 @@ actualParams -> 实参
   ```
   6. add TRUE,FALSE,NIL
   7. add some function for bison
+6. pcat.y
+  1. %error-verbose -> 可以让报错更加详细
+  ```
+  *** "syntax error" (line: 5, token:`i')
+
+  *** "syntax error, unexpected IDENTIFIER, expecting BEGINT or VAR or TYPE or PROCEDURE" (line: 5, token:`i')
+  ```
+  2. 出错之后使用gdb调试，在mac上使用gdb感觉极其麻烦。
+  开启bison的调试信息需要使用-t或者--debug命令 --report=state; 使用-g生成可视化的图形,xxx.dot;
+  一直错误，甚至怀疑语言规范有问题，https://web.cecs.pdx.edu/~apt/cs302_1999/pcat99/pcat99.html
+  emmm，找到bug了。是因为在fixed rule中少些了一句话。
+  ```
+  andOperand: andOperand AND relationship
+  | relationship // 少了这一行
+  ;
+  ```
+  学会了bison的debug方法，图形的 以及 输出的，文字输出可以查看哪一条规则没有任何作用useless，根据这个来debug。
+  开启debug的方式；
+    1. 在头部 #define YYDEBUG 1
+    2. 在main函数中
+    ```
+    #if YYDEBUG
+      yydebug = 1;
+    #endif
+    ```
+    3. 编译时加入-t或者--debug选项。
+
+  3. 没有报错，没有语法树的版本大概就是这样了，可以判断程序是否正确。
+    
