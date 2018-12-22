@@ -60,3 +60,5 @@ actualParams -> 实参
     lextest.cpp -> test source
     lextest.sh  -> test script
   ```
+  6. add TRUE,FALSE,NIL
+  7. add some function for bison

@@ -1,5 +1,6 @@
 %{
 #include <cstdio>
+#include <pcat.tab.h>
 
 #define min(a, b) ((a) < (b)) ? (a) : (b)
 #define printableAscii(ch)  ((0x20 <= (ch) && (ch) <= 0x7E && (ch) != '"'))
@@ -7,6 +8,7 @@
 int yycolumn = 1;
 #define YY_USER_ACTION yylexUpdateLocation();
 
+char* createCstr();
 void yyerror(const char* message);
 void yyerrorUnknownChar(char ch);
 void yylexUpdateLocation();
@@ -125,10 +127,13 @@ NOT         { return NOT; }
 OF          { return OF; }
 DIV         { return DIV; }
 MOD         { return MOD; }
+TRUE        { return TRUET; }
+FALSE       { return FALSET; }
+NIL         { return NILT; }
 
 {IDENTIFIER} {
   if(yyleng < 256) {
-    // yylval.Tstring = yytext;
+    yylval.Tstring = yytext;
     return IDENTIFIER; 
   }
   yyerror("Identifier too long");
@@ -143,6 +148,7 @@ MOD         { return MOD; }
         return ERROR;
       }
     }
+    yylval.Tstring = createCstr();
     return STRINGT; 
   }
   yyerror("String too long");
@@ -154,11 +160,13 @@ MOD         { return MOD; }
     yyerror("Integer out of range.\n");
     return ERROR;                  
   }
+  yylval.Tint = (long)val;
   return INTEGERT; 
 }
 
 {REALT} {
   double val = atof(yytext);
+  yylval.Treal = (long)val;
   return REALT; 
 }
 
@@ -192,7 +200,21 @@ void yyerrorUnknownChar(char ch) {
   }
 }
 
+char* createCstr() {
+    if(!yytext) return NULL;
+
+    char* str = (char*)malloc(yyleng-1);
+    memcpy(str, yytext+1, sizeof(char) * (yyleng-2));
+    str[yyleng-2] = '\0';
+
+    return str;
+}
+
 void yylexUpdateLocation() {
+  yylloc.first_line = yylineno;
+  yylloc.last_line = yylineno;
+  yylloc.first_column = yycolumn;
+  yylloc.last_column = yycolumn + yyleng - 1;
   yycolumn += yyleng;
 }
 
