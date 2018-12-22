@@ -29,7 +29,7 @@ actualParams -> 实参
     A -> ':' typename
       ->
     ```
-5. pcat.l
+5. pcat.lex
   1. YY_USER_ACTION
     The YY_USER_ACTION macro is "called" before each of your token actions and updates yylloc.
 
@@ -44,3 +44,19 @@ actualParams -> 实参
     } YYLTYPE;
     ```
   2. %option noyywrap
+  3. %option yylineno
+  4. 在demo.y中试验flex的yylineno和bison的yylloc功能，考虑到PCAT的token没有换行的情况(除COMMENT外)，COMMENT可能还需要继续试验。
+    ```c++
+    void yylexUpdateLocation() {
+      yylloc.first_line = yylineno;
+      yylloc.last_line = yylineno;
+      yylloc.first_column = yycolumn;
+      yylloc.last_column = yycolumn + yyleng - 1;
+      yycolumn += yyleng;
+    }
+    ```
+  5. 添加pcat.lex及其测试文件，放在./lextests/中，在没有和bison时可以正常运行。
+  ```
+    lextest.cpp -> test source
+    lextest.sh  -> test script
+  ```
