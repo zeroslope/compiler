@@ -1,79 +1,5 @@
-#if !defined(__AST__)
+#ifndef __AST__
 #define __AST__
-
-#include "pcat.h"
-
-// typedef enum {
-//   Program,
-//   BodyDef,
-//   DeclareList,
-//   VarDecs,
-//   TypeDecs,
-//   ProcDecs,
-//   VarDec,
-//   TypeDec,
-//   ProcDec,
-//   NamedTyp,
-//   ArrayTyp,
-//   RecordTyp,
-//   NoTyp,
-//   CompList,
-//   Comp,
-//   FormalParamList,
-//   Param,
-//   AssignSt,
-//   CallSt,
-//   ReadSt,
-//   WriteSt,
-//   IfSt,
-//   WhileSt,
-//   LoopSt,
-//   ForSt,
-//   ExitSt,
-//   RetSt,
-//   SeqSt,
-//   ExprList,
-//   BinOpExp,
-//   UnOpExp,
-//   LvalExp,
-//   CallExp,
-//   RecordExp,
-//   ArrayExp,
-//   IntConst,
-//   RealConst,
-//   StringConst,
-//   RecordInitList,
-//   RecordInit,
-//   ArrayInitList,
-//   ArrayInit,
-//   LvalList,
-//   Var,
-//   ArrayDeref,
-//   RecordDeref,
-
-//   Gt,
-//   Lt,
-//   Eq,
-//   Ge,
-//   Le,
-//   Ne,
-//   Plus,
-//   Minus,
-//   Times,
-//   Slash,
-//   Div,
-//   Mod,
-//   And,
-//   Or,
-//   UPlus,
-//   UMinus,
-//   Not,
-
-//   TypeInferenceNeeded,
-//   VoidType,
-//   EmptyStatement,
-//   EmptyExpression
-// } astKind;
 
 typedef enum {
   if_stat = 0,
@@ -205,8 +131,8 @@ static const char* ast_names[] = {
     "write_stat",
 
     // nodes
-    "body_node",
-    "stat_node",
+    "BodyNode",
+    "StatNode",
 
     "field_decl",
     "procedure_decl",
@@ -225,12 +151,16 @@ static const char* ast_names[] = {
 
 typedef enum { intAst, realAst, varAst, strAst, nodeAst } astTag;
 
-struct ast;
-struct astList;
+typedef struct astLoction {
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} astLoction;
 
-struct ast {
+typedef struct ast {
   astTag tag;
-  YYLTYPE location;  // 位置信息
+  astLoction location;  // 位置信息
   union {
     int integer;
     double real;
@@ -238,15 +168,15 @@ struct ast {
     char* string;
     struct {
       astKind tag;
-      astList* arguments;
+      struct astList* arguments;
     } node;
   } info;
-};
+} ast;
 
-struct astList {
+typedef struct astList {
   ast* elem;
-  astList* next;
-};
+  struct astList* next;
+} astList;
 
 ast* makeInt(const void* loc, const int x);
 ast* makeReal(const void* loc, const double x);

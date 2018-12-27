@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "ast.h"
 #include "pcat.h"
 
 #define min(a, b) ((a) < (b)) ? (a) : (b)
@@ -127,9 +128,9 @@ NOT         { return NOT; }
 OF          { return OF; }
 DIV         { return DIV; }
 MOD         { return MOD; }
-TRUE        { return TRUET; }
-FALSE       { return FALSET; }
-NIL         { return NILT; }
+TRUE        { yylval.Tstring = createCstr(); return TRUET; }
+FALSE       { yylval.Tstring = createCstr(); return FALSET; }
+NIL         { yylval.Tstring = createCstr(); return NILT; }
 
 {IDENTIFIER} {
   if(yyleng < 256) {

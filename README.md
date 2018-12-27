@@ -90,4 +90,7 @@ actualParams -> 实参
     3. 编译时加入-t或者--debug选项。
 
   3. 没有报错，没有语法树的版本大概就是这样了，可以判断程序是否正确。
-    
+7. ast
+  1. 编译出现了大量问题
+    1. 在ast.h中引用pcat.h(pcat.y编译生成pcat.c和pcat.h)，在pcat.y中也引用了ast.h，在ast中主要是为了使用YYLTYPE这个struct来表示位置信息，但是产生了循环引用的问题，所以在ast.h中定义了一个相同的数据结构。
+    2. 在Mac OS中使用clang编译会产生各种奇奇怪怪的错误，于是换到ubuntu，直接编译过...

@@ -6,16 +6,16 @@
 #include "ast.h"
 
 void setLocation(ast* tree, const void* loc) {
-  const YYLTYPE* locptr = (YYLTYPE*)loc;
+  const astLoction* locptr = (astLoction*)loc;
   if (tree && locptr) {
     tree->location = *locptr;
   }
 }
 
-static YYLTYPE comb_loc_result;
+static astLoction comb_loc_result;
 const void* combineLocation(const void* locl, const void* locr) {
-  YYLTYPE ll = *(YYLTYPE*)locl;
-  YYLTYPE lr = *(YYLTYPE*)locr;
+  astLoction ll = *(astLoction*)locl;
+  astLoction lr = *(astLoction*)locr;
 
   comb_loc_result.first_line = ll.first_line;
   comb_loc_result.last_line = lr.last_line;
@@ -65,7 +65,7 @@ ast* makeNode(const void* loc, const astKind tag, astList* args) {
   res->info.node.tag = tag;
   res->info.node.arguments = args;
 
-  const YYLTYPE* locptr = (YYLTYPE*)loc;
+  const astLoction* locptr = (astLoction*)loc;
   if (locptr) {
     res->location = *locptr;
   }
@@ -114,7 +114,7 @@ void printAstList(astList* r) {
 };
 
 static int tabs = 0;
-static YYLTYPE* lastloc = NULL;
+static astLoction* lastloc = NULL;
 
 void printAst(ast* x) {
   tabs = 0;
@@ -220,30 +220,30 @@ astList* createList(int n, ...) {
   return r;
 }
 
-int main() {
-  YYLTYPE locl;
-  locl.first_line = 1;
-  locl.last_line = 1;
-  locl.first_column = 1;
-  locl.last_column = 4;
-  printf("Location a: %d %d %d %d\n", locl.first_column, locl.last_column,
-         locl.first_line, locl.last_line);
+// int main() {
+//   astLoction locl;
+//   locl.first_line = 1;
+//   locl.last_line = 1;
+//   locl.first_column = 1;
+//   locl.last_column = 4;
+//   printf("Location a: %d %d %d %d\n", locl.first_column, locl.last_column,
+//          locl.first_line, locl.last_line);
 
-  YYLTYPE locr;
-  locr.first_line = 1;
-  locr.last_line = 1;
-  locr.first_column = 6;
-  locr.last_column = 8;
-  printf("Location a: %d %d %d %d\n", locr.first_column, locr.last_column,
-         locr.first_line, locr.last_line);
+//   astLoction locr;
+//   locr.first_line = 1;
+//   locr.last_line = 1;
+//   locr.first_column = 6;
+//   locr.last_column = 8;
+//   printf("Location a: %d %d %d %d\n", locr.first_column, locr.last_column,
+//          locr.first_line, locr.last_line);
 
-  ast* a = makeInt(&locl, 123);
-  ast* b = makeStr(&locr, "ha");
+//   ast* a = makeInt(&locl, 123);
+//   ast* b = makeStr(&locr, "ha");
 
-  astList* lst = createList(2, a, b);
+//   astList* lst = createList(2, a, b);
 
-  ast* node = makeNodeR(&locl, &locr, body_node, lst);
+//   ast* node = makeNodeR(&locl, &locr, body_node, lst);
 
-  printAstList(lst);
-  printAst(node);
-}
+//   printAstList(lst);
+//   printAst(node);
+// }
