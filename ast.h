@@ -17,20 +17,14 @@ typedef enum {
   and_exp,
   not_exp,
   call_exp,
-  fnc_def,
 
-  // here are added node types
-
-  // -- binary operators
   fdiv_exp,
   mod_exp,
   neq_exp,
 
-  // -- unary operators
   neg_exp,
   pos_exp,
 
-  // -- other operators
   fcall_exp,
   finit_exp,
   ainit_exp,
@@ -38,10 +32,10 @@ typedef enum {
   ids_node,
   idx_exp,
   mem_exp,
-  fasg_node,
-  fasg_exp,
-  aval_node,
-  aval_exp,
+  record_node,
+  record_exp,
+  array_node,
+  array_exp,
   io_node,
   if_node,
   else_node,
@@ -51,7 +45,7 @@ typedef enum {
   for_stat,
   while_stat,
   loop_stat,
-  asgn_stat,
+  assign_stat,
   read_stat,
   write_stat,
 
@@ -59,18 +53,18 @@ typedef enum {
   body_node,
   stat_node,
 
-  field_decl,
-  proc_decl,
+  component_decl,
+  procedure_decl,
   type_decl,
   var_decl,
   param_node,
   param_sec,
-  arr_type,
-  rec_type,
+  array_type,
+  record_type,
 
   var_decls,
   type_decls,
-  proc_decls,
+  procedure_decls,
 
   genr_node,
 
@@ -79,74 +73,73 @@ typedef enum {
 } astKind;
 
 static const char* ast_names[] = {
-    "if_stat",
-    "eq_exp",
-    "lt_exp",
-    "gt_exp",
-    "le_exp",
-    "ne_exp",
-    "ge_exp",
-    "plus_exp",
-    "minus_exp",
-    "times_exp",
-    "div_exp",
-    "or_exp",
-    "and_exp",
-    "not_exp",
-    "call_exp",
-    "fnc_def",
+    "IfSt",
+    "eqExp",
+    "ltExp",
+    "gtExp",
+    "leExp",
+    "neExp",
+    "geExp",
+    "plusExp",
+    "minusExp",
+    "timesExp",
+    "divExp",
+    "orExp",
+    "andExp",
+    "notExp",
+    "callExp",
 
     // bin opt
-    "float_div_exp",
-    "mod_exp",
-    "neq_exp",
+    "floatDivExp",
+    "modExp",
+    "neqExp",
 
     // unary opt
-    "neg_exp",
-    "pos_exp",
+    "negExp",
+    "posExp",
 
     // other opt
-    "func_call_exp",
-    "field_init_exp",
-    "array_init_exp",
-    "args_node",
-    "ids_node",
-    "index_exp",
-    "member_exp",
-    "field_inits_node",
-    "field_init_assign",
-    "array_values_node",
-    "array_value_exp",
-    "io_args_node",
-    "if_element_node",
-    "else_element_node",
+    "funcCallExp",
+    "fieldInitExp",
+    "arrayInitExp",
+    "argsNode",
+    "idsNode",
+    "indexExp",
+    "memberExp",
+    "fieldInitsNode",
+    "fieldInitAssign",
+    "arrayValuesNode",
+    "arrayValueExp",
+    "ioArgsNode",
+    "ifElementNode",
+    "elseElementNode",
 
-    "return_stat",
-    "exit_stat",
-    "for_stat",
-    "while_stat",
-    "loop_stat",
-    "assign_stat",
-    "read_stat",
-    "write_stat",
+    "returnSt",
+    "exitSt",
+    "forSt",
+    "whileSt",
+    "loopSt",
+    "assignSt",
+    "readSt",
+    "writeSt",
 
     // nodes
-    "BodyNode",
-    "StatNode",
+    "bodyNode",
+    "statNode",
 
-    "field_decl",
-    "procedure_decl",
-    "type_decl",
-    "var_decl",
-    "param_node",
-    "param_section",
-    "array_type",
-    "record_type",
-    "var_decl_list",
-    "type_decl_list",
-    "proc_decl_list",
+    "componentDecl",
+    "procedureDecl",
+    "typeDecl",
+    "varDecl",
+    "paramNode",
+    "paramSection",
+    "arrayType",
+    "recordType",
+    "varDeclList",
+    "typeDeclList",
+    "procedureDeclList",
 
-    "general_node",
+    "declarationNode",
 };
 
 typedef enum { intAst, realAst, varAst, strAst, nodeAst } astTag;
@@ -188,10 +181,8 @@ ast* makeNodeR(const void* locl,
                const astKind tag,
                astList* args);
 
-// create an AST node for unary operation
 ast* makeUnaryExp(const void* loc, const astKind tag, ast* val);
 
-// create an AST node for binary operation
 ast* makeBinExp(const void* loc, const astKind tag, ast* val1, ast* val2);
 
 ast* makeStatBlock(const void* loc, astList* revstat);
@@ -201,20 +192,16 @@ ast* makeIdList(const void* locl,
                 ast* firstid,
                 astList* revlst);
 
-/* put an AST e in the beginning of the list of ASTs r */
 astList* unshift(ast* e, astList* r);
 
-// create a list with serveral elements
 astList* createList(int n, ...);
 
 int length(astList*);
 
 astList* reverse(astList*);
 
-/* printing functions for ASTs */
-void printAstList(astList* r);
-
 void printAst(ast* x);
+void printAstList(astList* r);
 void printAstInternal(ast* x);
 
 #endif  // __AST__

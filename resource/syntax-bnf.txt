@@ -44,7 +44,8 @@ statement                    -> lvalue ':=' expression ';'
                                 statementElseO END ';'
                              -> WHILE expression DO statementClosure END ';'
                              -> LOOP statementClosure END ';'
-                             -> FOR identifier ':=' expression TO expression statementByO DO statementClosure END ';'
+                             -> FOR identifier ':=' expression TO expression statementByO 
+                                DO statementClosure END ';'
                              -> EXIT ';'
                              -> RETURN expressionO ';'
 statementLvalueClosure       -> statementLvalueClosure ',' lvalue

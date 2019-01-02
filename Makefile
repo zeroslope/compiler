@@ -12,7 +12,7 @@ ast.o:  ast.cpp ast.h pcat.h
 	$(GCC) $(CFLAGS) -c ast.cpp
 
 pcat.c: pcat.y
-	$(YACC) -d -v -o pcat.c pcat.y
+	$(YACC) -d -v -g -o pcat.c pcat.y
 
 pcat.o: pcat.c pcat.yy.c ast.h
 	$(GCC) $(CFLAGS) -c pcat.c
@@ -21,4 +21,4 @@ pcat.yy.c: pcat.lex
 	$(LEX) -o pcat.yy.c pcat.lex
 
 clean:
-	rm -f *.o *~ pcat.yy.c pcat.c pcat.output parser core
+	rm -f *.o *~ pcat.yy.c pcat.c pcat.output parser

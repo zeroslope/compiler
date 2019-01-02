@@ -28,7 +28,7 @@ const void* combineLocation(const void* locl, const void* locr) {
 ast* makeInt(const void* loc, const int x) {
   ast* res = new ast;
   res->tag = intAst;
-  res->info.real = x;
+  res->info.integer = x;
   setLocation(res, loc);
   return res;
 }
@@ -53,8 +53,8 @@ ast* makeVar(const void* loc, const char* x) {
 ast* makeStr(const void* loc, const char* x) {
   ast* res = new ast;
   res->tag = varAst;
-  res->info.variable = (char*)malloc(strlen(x) + 1);
-  strcpy(res->info.variable, x);
+  res->info.string = (char*)malloc(strlen(x) + 1);
+  strcpy(res->info.string, x);
   setLocation(res, loc);
   return res;
 }
@@ -158,6 +158,7 @@ void printAstInternal(ast* x) {
                x->location.first_line, x->location.first_column,
                x->location.last_column);
         printAstList(x->info.node.arguments);
+
         printf(")");
 
         // indent(tail)

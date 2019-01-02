@@ -94,3 +94,6 @@ actualParams -> 实参
   1. 编译出现了大量问题
     1. 在ast.h中引用pcat.h(pcat.y编译生成pcat.c和pcat.h)，在pcat.y中也引用了ast.h，在ast中主要是为了使用YYLTYPE这个struct来表示位置信息，但是产生了循环引用的问题，所以在ast.h中定义了一个相同的数据结构。
     2. 在Mac OS中使用clang编译会产生各种奇奇怪怪的错误，于是换到ubuntu，直接编译过...
+
+
+    有些东西并不能直接合并，因为他们那么虽然语法上一样，但是在语义上是不相同的

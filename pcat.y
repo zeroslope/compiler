@@ -81,7 +81,7 @@ declarationClosure: /* empty */     { $$ = NULL; }
   ;
 declaration: VAR varDeclClosure     { $$ = makeNode(&(@$), var_decls, reverse($2)); }
   | TYPE typeDeclClosure            { $$ = makeNode(&(@$), type_decls, reverse($2)); }
-  | PROCEDURE procedureDeclClosure  { $$ = makeNode(&(@$), proc_decls, reverse($2)); }
+  | PROCEDURE procedureDeclClosure  { $$ = makeNode(&(@$), procedure_decls, reverse($2)); }
   ;
 statementClosure: /* empty */   { $$ = NULL; }
   | statementClosure statement  { $$ = unshift($2, $1); }
@@ -105,17 +105,17 @@ typenameOption: /* empty */     { $$ = NULL; }
   ;
 typeDecl: identifier IS type SEMICOLON { $$ = makeNode(&(@$), type_decl, createList(1, $3)); }
   ;
-procedureDecl: identifier formalParams typenameOption IS body SEMICOLON { $$ = makeNode(&(@$), proc_decl, createList(4, $1, $2, $3, $5)); }
+procedureDecl: identifier formalParams typenameOption IS body SEMICOLON { $$ = makeNode(&(@$), procedure_decl, createList(4, $1, $2, $3, $5)); }
   ;
 typename: identifier
   ;
-type: ARRAY OF typename                   { $$ = makeNode(&(@$), arr_type, createList(1, $3)); }
-  | RECORD component componentClosure END { $$ = makeNode(&(@$), rec_type, unshift($2, reverse($3))); }
+type: ARRAY OF typename                   { $$ = makeNode(&(@$), array_type, createList(1, $3)); }
+  | RECORD component componentClosure END { $$ = makeNode(&(@$), record_type, unshift($2, reverse($3))); }
   ;
 componentClosure: /* empty */   { $$ = NULL; }
   | componentClosure component  { $$ = unshift($2, $1); } 
   ;
-component: identifier COLON typename SEMICOLON  { $$ = makeNode(&(@$), field_decl, createList(2, $1, $3)); }
+component: identifier COLON typename SEMICOLON  { $$ = makeNode(&(@$), component_decl, createList(2, $1, $3)); }
   ;
 formalParams: LPAREN RPAREN                   { $$ = makeNode(&(@$), param_node, NULL); }  
   | LPAREN fpSection fpSectionClosure RPAREN  { $$ = makeNode(&(@$), param_node, unshift($2, reverse($3))); }   
@@ -126,7 +126,7 @@ fpSectionClosure: /* empty */             { $$ = NULL; }
 fpSection: identifier IDClosure COLON typename  { $$ = makeNode(&(@$), param_sec, createList(2, makeIdList(&(@1), &(@2), $1, $2), $4)); }
   ;
 statement: lvalue ASSIGN expression SEMICOLON
-                                          { $$ = makeNode(&(@$), asgn_stat, createList(2, $1, $3)); }
+                                          { $$ = makeNode(&(@$), assign_stat, createList(2, $1, $3)); }
   | identifier actualParams SEMICOLON     { $$ = makeNode(&(@$), fcall_exp, createList(2, $1, $2)); }
   | READ LPAREN lvalue statementLvalueClosure RPAREN SEMICOLON
                                           { $$ = makeNode(&(@$), read_stat, unshift($3, reverse($4))); }
@@ -135,13 +135,10 @@ statement: lvalue ASSIGN expression SEMICOLON
     statementElsifClosure
     statementElseOption 
     END SEMICOLON                         { 
-                                              $$ = makeNode(&(@$), if_stat, 
-                                                  createList
-                                                  (
-                                                      3, makeNodeR(&(@1), &(@4), if_node, createList(2, $2, $4)),
-                                                      makeStatBlock(&(@5), $5),
-                                                      $6
-                                                  )
+                                              $$ = makeNode(
+                                                &(@$), 
+                                                if_stat,
+                                                createList(3, makeNodeR(&(@1), &(@4), if_node, createList(2, $2, $4)), makeStatBlock(&(@5), $5), $6)
                                               ); 
                                           }
   | WHILE expression DO statementClosure END SEMICOLON
@@ -149,12 +146,11 @@ statement: lvalue ASSIGN expression SEMICOLON
   | LOOP statementClosure END SEMICOLON
                                           { $$ = makeNode(&(@$),  loop_stat, createList(1, makeStatBlock(&(@2), $2))); }
   | FOR identifier ASSIGN expression TO expression statementByOption DO statementClosure END SEMICOLON
-                                          { $$ = makeNode(&(@$), for_stat, 
-                                                createList
-                                                (
-                                                    5, $2, $4, $6, $7,
-                                                    makeStatBlock(&(@9), $9)
-                                                )
+                                          { 
+                                            $$ = makeNode(
+                                              &(@$), 
+                                              for_stat, 
+                                              createList(5, $2, $4, $6, $7, makeStatBlock(&(@9), $9))
                                             ); 
                                           }
   | EXIT SEMICOLON                        { $$ = makeNode(&(@$), exit_stat, NULL); }
@@ -233,18 +229,18 @@ actualParams: LPAREN expression actualParamsExprClosure RPAREN  { $$ = makeNode(
 actualParamsExprClosure: /* empty */          { $$ = NULL; } 
   | actualParamsExprClosure COMMA expression  { $$ = createList(2, $3, $1); }
   ;
-recordInits: LBRACE identifier ASSIGN expression recordInitsPairClosure RBRACE { $$ = makeNode(&(@$), fasg_node, unshift(makeNodeR(&(@2), &(@4), fasg_exp, createList(2, $2, $4)), reverse($5))); }
+recordInits: LBRACE identifier ASSIGN expression recordInitsPairClosure RBRACE { $$ = makeNode(&(@$), record_node, unshift(makeNodeR(&(@2), &(@4), record_exp, createList(2, $2, $4)), reverse($5))); }
   ;
 recordInitsPairClosure: /* empty */                               { $$ = NULL; }
-  | recordInitsPairClosure SEMICOLON identifier ASSIGN expression { $$ = unshift(makeNodeR(&(@3), &(@5), fasg_exp, createList(2, $3, $5)), $1); }
+  | recordInitsPairClosure SEMICOLON identifier ASSIGN expression { $$ = unshift(makeNodeR(&(@3), &(@5), record_exp, createList(2, $3, $5)), $1); }
   ;
-arrayInits: LABRACKET arrayInit arrayInitClosure RABRACKET { $$ = makeNode(&(@$), aval_node, unshift($2, reverse($3))); }
+arrayInits: LABRACKET arrayInit arrayInitClosure RABRACKET { $$ = makeNode(&(@$), array_node, unshift($2, reverse($3))); }
   ;
 arrayInitClosure: /* empty */         { $$ = NULL; }
   | arrayInitClosure COMMA arrayInit  { $$ = unshift($3, $1); }
   ;
-arrayInit: expression         { $$ = makeNode(&(@$), aval_exp, createList(1, $1)); }
-  | expression OF expression  { $$ = makeNode(&(@$), aval_exp, createList(2, $1, $3)); }
+arrayInit: expression         { $$ = makeNode(&(@$), array_exp, createList(1, $1)); }
+  | expression OF expression  { $$ = makeNode(&(@$), array_exp, createList(2, $1, $3)); }
   ;
 number: INTEGERT  { $$ = makeInt(&(@$), yylval.Tint); }
   | REALT         { $$ = makeReal(&(@$), yylval.Treal); }

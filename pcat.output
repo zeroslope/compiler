@@ -1,0 +1,3069 @@
+Terminals unused in grammar
+
+   IN
+   OUT
+   BACKSLASH
+   EOFF
+   ERROR
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: program
+
+    2 program: PROGRAM IS body SEMICOLON
+
+    3 body: declarationClosure BEGINT statementClosure END
+
+    4 declarationClosure: %empty
+    5                   | declarationClosure declaration
+
+    6 declaration: VAR varDeclClosure
+    7            | TYPE typeDeclClosure
+    8            | PROCEDURE procedureDeclClosure
+
+    9 statementClosure: %empty
+   10                 | statementClosure statement
+
+   11 varDeclClosure: %empty
+   12               | varDeclClosure varDecl
+
+   13 typeDeclClosure: %empty
+   14                | typeDeclClosure typeDecl
+
+   15 procedureDeclClosure: %empty
+   16                     | procedureDeclClosure procedureDecl
+
+   17 varDecl: identifier IDClosure typenameOption ASSIGN expression SEMICOLON
+
+   18 IDClosure: %empty
+   19          | IDClosure COMMA identifier
+
+   20 typenameOption: %empty
+   21               | COLON typename
+
+   22 typeDecl: identifier IS type SEMICOLON
+
+   23 procedureDecl: identifier formalParams typenameOption IS body SEMICOLON
+
+   24 typename: identifier
+
+   25 type: ARRAY OF typename
+   26     | RECORD component componentClosure END
+
+   27 componentClosure: %empty
+   28                 | componentClosure component
+
+   29 component: identifier COLON typename SEMICOLON
+
+   30 formalParams: LPAREN RPAREN
+   31             | LPAREN fpSection fpSectionClosure RPAREN
+
+   32 fpSectionClosure: %empty
+   33                 | fpSectionClosure SEMICOLON fpSection
+
+   34 fpSection: identifier IDClosure COLON typename
+
+   35 statement: lvalue ASSIGN expression SEMICOLON
+   36          | identifier actualParams SEMICOLON
+   37          | READ LPAREN lvalue statementLvalueClosure RPAREN SEMICOLON
+   38          | WRITE writeParams SEMICOLON
+   39          | IF expression THEN statementClosure statementElsifClosure statementElseOption END SEMICOLON
+   40          | WHILE expression DO statementClosure END SEMICOLON
+   41          | LOOP statementClosure END SEMICOLON
+   42          | FOR identifier ASSIGN expression TO expression statementByOption DO statementClosure END SEMICOLON
+   43          | EXIT SEMICOLON
+   44          | RETURN expressionOption SEMICOLON
+
+   45 statementLvalueClosure: %empty
+   46                       | statementLvalueClosure COMMA lvalue
+
+   47 statementElsifClosure: %empty
+   48                      | statementElsifClosure ELSIF expression THEN statementClosure
+
+   49 statementElseOption: %empty
+   50                    | ELSE statementClosure
+
+   51 statementByOption: %empty
+   52                  | BY expression
+
+   53 writeParams: LPAREN RPAREN
+   54            | LPAREN writeExpr writeParamsExprClosure RPAREN
+
+   55 writeParamsExprClosure: %empty
+   56                       | writeParamsExprClosure COMMA writeExpr
+
+   57 writeExpr: string
+   58          | expression
+
+   59 expressionOption: %empty
+   60                 | expression
+
+   61 expression: orOperand
+
+   62 orOperand: orOperand OR andOperand
+   63          | andOperand
+
+   64 andOperand: andOperand AND relationship
+   65           | relationship
+
+   66 relationship: summand GT summand
+   67             | summand LT summand
+   68             | summand EQ summand
+   69             | summand NEQ summand
+   70             | summand GE summand
+   71             | summand LE summand
+   72             | summand
+
+   73 summand: summand PLUS factor
+   74        | summand MINUS factor
+   75        | factor
+
+   76 factor: factor STAR unary
+   77       | factor SLASH unary
+   78       | factor DIV unary
+   79       | factor MOD unary
+   80       | unary
+
+   81 unary: PLUS unary
+   82      | MINUS unary
+   83      | NOT unary
+   84      | term
+
+   85 term: number
+   86     | lvalue
+   87     | identifier actualParams
+   88     | identifier recordInits
+   89     | identifier arrayInits
+   90     | LPAREN expression RPAREN
+   91     | constant
+
+   92 lvalue: identifier
+   93       | lvalue LBRACKET expression RBRACKET
+   94       | lvalue DOT identifier
+
+   95 actualParams: LPAREN expression actualParamsExprClosure RPAREN
+   96             | LPAREN RPAREN
+
+   97 actualParamsExprClosure: %empty
+   98                        | actualParamsExprClosure COMMA expression
+
+   99 recordInits: LBRACE identifier ASSIGN expression recordInitsPairClosure RBRACE
+
+  100 recordInitsPairClosure: %empty
+  101                       | recordInitsPairClosure SEMICOLON identifier ASSIGN expression
+
+  102 arrayInits: LABRACKET arrayInit arrayInitClosure RABRACKET
+
+  103 arrayInitClosure: %empty
+  104                 | arrayInitClosure COMMA arrayInit
+
+  105 arrayInit: expression
+  106          | expression OF expression
+
+  107 number: INTEGERT
+  108       | REALT
+
+  109 string: STRINGT
+
+  110 identifier: IDENTIFIER
+
+  111 constant: TRUET
+  112         | FALSET
+  113         | NILT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+IDENTIFIER (258) 110
+INTEGERT (259) 107
+REALT (260) 108
+STRINGT (261) 109
+PROGRAM (262) 2
+IS (263) 2 22 23
+BEGINT (264) 3
+END (265) 3 26 39 40 41 42
+VAR (266) 6
+TYPE (267) 7
+PROCEDURE (268) 8
+ARRAY (269) 25
+RECORD (270) 26
+IN (271)
+OUT (272)
+READ (273) 37
+WRITE (274) 38
+IF (275) 39
+THEN (276) 39 48
+ELSE (277) 50
+ELSIF (278) 48
+WHILE (279) 40
+DO (280) 40 42
+LOOP (281) 41
+FOR (282) 42
+TO (283) 42
+BY (284) 52
+EXIT (285) 43
+RETURN (286) 44
+AND (287) 64
+OR (288) 62
+NOT (289) 83
+OF (290) 25 106
+LPAREN (291) 30 31 37 53 54 90 95 96
+RPAREN (292) 30 31 37 53 54 90 95 96
+LBRACKET (293) 93
+RBRACKET (294) 93
+LBRACE (295) 99
+RBRACE (296) 99
+COLON (297) 21 29 34
+DOT (298) 94
+SEMICOLON (299) 2 17 22 23 29 33 35 36 37 38 39 40 41 42 43 44 101
+COMMA (300) 19 46 56 98 104
+ASSIGN (301) 17 35 42 99 101
+PLUS (302) 73 81
+MINUS (303) 74 82
+DIV (304) 78
+MOD (305) 79
+STAR (306) 76
+SLASH (307) 77
+BACKSLASH (308)
+EQ (309) 68
+NEQ (310) 69
+LT (311) 67
+LE (312) 71
+GT (313) 66
+GE (314) 70
+LABRACKET (315) 102
+RABRACKET (316) 102
+EOFF (317)
+ERROR (318)
+TRUET (319) 111
+FALSET (320) 112
+NILT (321) 113
+
+
+Nonterminals, with rules where they appear
+
+$accept (67)
+    on left: 0
+start (68)
+    on left: 1, on right: 0
+program (69)
+    on left: 2, on right: 1
+body (70)
+    on left: 3, on right: 2 23
+declarationClosure (71)
+    on left: 4 5, on right: 3 5
+declaration (72)
+    on left: 6 7 8, on right: 5
+statementClosure (73)
+    on left: 9 10, on right: 3 10 39 40 41 42 48 50
+varDeclClosure (74)
+    on left: 11 12, on right: 6 12
+typeDeclClosure (75)
+    on left: 13 14, on right: 7 14
+procedureDeclClosure (76)
+    on left: 15 16, on right: 8 16
+varDecl (77)
+    on left: 17, on right: 12
+IDClosure (78)
+    on left: 18 19, on right: 17 19 34
+typenameOption (79)
+    on left: 20 21, on right: 17 23
+typeDecl (80)
+    on left: 22, on right: 14
+procedureDecl (81)
+    on left: 23, on right: 16
+typename (82)
+    on left: 24, on right: 21 25 29 34
+type (83)
+    on left: 25 26, on right: 22
+componentClosure (84)
+    on left: 27 28, on right: 26 28
+component (85)
+    on left: 29, on right: 26 28
+formalParams (86)
+    on left: 30 31, on right: 23
+fpSectionClosure (87)
+    on left: 32 33, on right: 31 33
+fpSection (88)
+    on left: 34, on right: 31 33
+statement (89)
+    on left: 35 36 37 38 39 40 41 42 43 44, on right: 10
+statementLvalueClosure (90)
+    on left: 45 46, on right: 37 46
+statementElsifClosure (91)
+    on left: 47 48, on right: 39 48
+statementElseOption (92)
+    on left: 49 50, on right: 39
+statementByOption (93)
+    on left: 51 52, on right: 42
+writeParams (94)
+    on left: 53 54, on right: 38
+writeParamsExprClosure (95)
+    on left: 55 56, on right: 54 56
+writeExpr (96)
+    on left: 57 58, on right: 54 56
+expressionOption (97)
+    on left: 59 60, on right: 44
+expression (98)
+    on left: 61, on right: 17 35 39 40 42 48 52 58 60 90 93 95 98 99
+    101 105 106
+orOperand (99)
+    on left: 62 63, on right: 61 62
+andOperand (100)
+    on left: 64 65, on right: 62 63 64
+relationship (101)
+    on left: 66 67 68 69 70 71 72, on right: 64 65
+summand (102)
+    on left: 73 74 75, on right: 66 67 68 69 70 71 72 73 74
+factor (103)
+    on left: 76 77 78 79 80, on right: 73 74 75 76 77 78 79
+unary (104)
+    on left: 81 82 83 84, on right: 76 77 78 79 80 81 82 83
+term (105)
+    on left: 85 86 87 88 89 90 91, on right: 84
+lvalue (106)
+    on left: 92 93 94, on right: 35 37 46 86 93 94
+actualParams (107)
+    on left: 95 96, on right: 36 87
+actualParamsExprClosure (108)
+    on left: 97 98, on right: 95 98
+recordInits (109)
+    on left: 99, on right: 88
+recordInitsPairClosure (110)
+    on left: 100 101, on right: 99 101
+arrayInits (111)
+    on left: 102, on right: 89
+arrayInitClosure (112)
+    on left: 103 104, on right: 102 104
+arrayInit (113)
+    on left: 105 106, on right: 102 104
+number (114)
+    on left: 107 108, on right: 85
+string (115)
+    on left: 109, on right: 57
+identifier (116)
+    on left: 110, on right: 17 19 22 23 24 29 34 36 42 87 88 89 92
+    94 99 101
+constant (117)
+    on left: 111 112 113, on right: 91
+
+
+State 0
+
+    0 $accept: . start $end
+
+    PROGRAM  shift, and go to state 1
+
+    start    go to state 2
+    program  go to state 3
+
+
+State 1
+
+    2 program: PROGRAM . IS body SEMICOLON
+
+    IS  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 start: program .
+
+    $default  reduce using rule 1 (start)
+
+
+State 4
+
+    2 program: PROGRAM IS . body SEMICOLON
+
+    $default  reduce using rule 4 (declarationClosure)
+
+    body                go to state 6
+    declarationClosure  go to state 7
+
+
+State 5
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+State 6
+
+    2 program: PROGRAM IS body . SEMICOLON
+
+    SEMICOLON  shift, and go to state 8
+
+
+State 7
+
+    3 body: declarationClosure . BEGINT statementClosure END
+    5 declarationClosure: declarationClosure . declaration
+
+    BEGINT     shift, and go to state 9
+    VAR        shift, and go to state 10
+    TYPE       shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+
+    declaration  go to state 13
+
+
+State 8
+
+    2 program: PROGRAM IS body SEMICOLON .
+
+    $default  reduce using rule 2 (program)
+
+
+State 9
+
+    3 body: declarationClosure BEGINT . statementClosure END
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 14
+
+
+State 10
+
+    6 declaration: VAR . varDeclClosure
+
+    $default  reduce using rule 11 (varDeclClosure)
+
+    varDeclClosure  go to state 15
+
+
+State 11
+
+    7 declaration: TYPE . typeDeclClosure
+
+    $default  reduce using rule 13 (typeDeclClosure)
+
+    typeDeclClosure  go to state 16
+
+
+State 12
+
+    8 declaration: PROCEDURE . procedureDeclClosure
+
+    $default  reduce using rule 15 (procedureDeclClosure)
+
+    procedureDeclClosure  go to state 17
+
+
+State 13
+
+    5 declarationClosure: declarationClosure declaration .
+
+    $default  reduce using rule 5 (declarationClosure)
+
+
+State 14
+
+    3 body: declarationClosure BEGINT statementClosure . END
+   10 statementClosure: statementClosure . statement
+
+    IDENTIFIER  shift, and go to state 18
+    END         shift, and go to state 19
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 15
+
+    6 declaration: VAR varDeclClosure .
+   12 varDeclClosure: varDeclClosure . varDecl
+
+    IDENTIFIER  shift, and go to state 18
+
+    $default  reduce using rule 6 (declaration)
+
+    varDecl     go to state 31
+    identifier  go to state 32
+
+
+State 16
+
+    7 declaration: TYPE typeDeclClosure .
+   14 typeDeclClosure: typeDeclClosure . typeDecl
+
+    IDENTIFIER  shift, and go to state 18
+
+    $default  reduce using rule 7 (declaration)
+
+    typeDecl    go to state 33
+    identifier  go to state 34
+
+
+State 17
+
+    8 declaration: PROCEDURE procedureDeclClosure .
+   16 procedureDeclClosure: procedureDeclClosure . procedureDecl
+
+    IDENTIFIER  shift, and go to state 18
+
+    $default  reduce using rule 8 (declaration)
+
+    procedureDecl  go to state 35
+    identifier     go to state 36
+
+
+State 18
+
+  110 identifier: IDENTIFIER .
+
+    $default  reduce using rule 110 (identifier)
+
+
+State 19
+
+    3 body: declarationClosure BEGINT statementClosure END .
+
+    $default  reduce using rule 3 (body)
+
+
+State 20
+
+   37 statement: READ . LPAREN lvalue statementLvalueClosure RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 37
+
+
+State 21
+
+   38 statement: WRITE . writeParams SEMICOLON
+
+    LPAREN  shift, and go to state 38
+
+    writeParams  go to state 39
+
+
+State 22
+
+   39 statement: IF . expression THEN statementClosure statementElsifClosure statementElseOption END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 49
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 23
+
+   40 statement: WHILE . expression DO statementClosure END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 61
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 24
+
+   41 statement: LOOP . statementClosure END SEMICOLON
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 62
+
+
+State 25
+
+   42 statement: FOR . identifier ASSIGN expression TO expression statementByOption DO statementClosure END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+
+    identifier  go to state 63
+
+
+State 26
+
+   43 statement: EXIT . SEMICOLON
+
+    SEMICOLON  shift, and go to state 64
+
+
+State 27
+
+   44 statement: RETURN . expressionOption SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    $default  reduce using rule 59 (expressionOption)
+
+    expressionOption  go to state 65
+    expression        go to state 66
+    orOperand         go to state 50
+    andOperand        go to state 51
+    relationship      go to state 52
+    summand           go to state 53
+    factor            go to state 54
+    unary             go to state 55
+    term              go to state 56
+    lvalue            go to state 57
+    number            go to state 58
+    identifier        go to state 59
+    constant          go to state 60
+
+
+State 28
+
+   10 statementClosure: statementClosure statement .
+
+    $default  reduce using rule 10 (statementClosure)
+
+
+State 29
+
+   35 statement: lvalue . ASSIGN expression SEMICOLON
+   93 lvalue: lvalue . LBRACKET expression RBRACKET
+   94       | lvalue . DOT identifier
+
+    LBRACKET  shift, and go to state 67
+    DOT       shift, and go to state 68
+    ASSIGN    shift, and go to state 69
+
+
+State 30
+
+   36 statement: identifier . actualParams SEMICOLON
+   92 lvalue: identifier .
+
+    LPAREN  shift, and go to state 70
+
+    $default  reduce using rule 92 (lvalue)
+
+    actualParams  go to state 71
+
+
+State 31
+
+   12 varDeclClosure: varDeclClosure varDecl .
+
+    $default  reduce using rule 12 (varDeclClosure)
+
+
+State 32
+
+   17 varDecl: identifier . IDClosure typenameOption ASSIGN expression SEMICOLON
+
+    $default  reduce using rule 18 (IDClosure)
+
+    IDClosure  go to state 72
+
+
+State 33
+
+   14 typeDeclClosure: typeDeclClosure typeDecl .
+
+    $default  reduce using rule 14 (typeDeclClosure)
+
+
+State 34
+
+   22 typeDecl: identifier . IS type SEMICOLON
+
+    IS  shift, and go to state 73
+
+
+State 35
+
+   16 procedureDeclClosure: procedureDeclClosure procedureDecl .
+
+    $default  reduce using rule 16 (procedureDeclClosure)
+
+
+State 36
+
+   23 procedureDecl: identifier . formalParams typenameOption IS body SEMICOLON
+
+    LPAREN  shift, and go to state 74
+
+    formalParams  go to state 75
+
+
+State 37
+
+   37 statement: READ LPAREN . lvalue statementLvalueClosure RPAREN SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+
+    lvalue      go to state 76
+    identifier  go to state 77
+
+
+State 38
+
+   53 writeParams: LPAREN . RPAREN
+   54            | LPAREN . writeExpr writeParamsExprClosure RPAREN
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    STRINGT     shift, and go to state 78
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    RPAREN      shift, and go to state 79
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    writeExpr     go to state 80
+    expression    go to state 81
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    string        go to state 82
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 39
+
+   38 statement: WRITE writeParams . SEMICOLON
+
+    SEMICOLON  shift, and go to state 83
+
+
+State 40
+
+  107 number: INTEGERT .
+
+    $default  reduce using rule 107 (number)
+
+
+State 41
+
+  108 number: REALT .
+
+    $default  reduce using rule 108 (number)
+
+
+State 42
+
+   83 unary: NOT . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 84
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 43
+
+   90 term: LPAREN . expression RPAREN
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 85
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 44
+
+   81 unary: PLUS . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 86
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 45
+
+   82 unary: MINUS . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 87
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 46
+
+  111 constant: TRUET .
+
+    $default  reduce using rule 111 (constant)
+
+
+State 47
+
+  112 constant: FALSET .
+
+    $default  reduce using rule 112 (constant)
+
+
+State 48
+
+  113 constant: NILT .
+
+    $default  reduce using rule 113 (constant)
+
+
+State 49
+
+   39 statement: IF expression . THEN statementClosure statementElsifClosure statementElseOption END SEMICOLON
+
+    THEN  shift, and go to state 88
+
+
+State 50
+
+   61 expression: orOperand .
+   62 orOperand: orOperand . OR andOperand
+
+    OR  shift, and go to state 89
+
+    $default  reduce using rule 61 (expression)
+
+
+State 51
+
+   63 orOperand: andOperand .
+   64 andOperand: andOperand . AND relationship
+
+    AND  shift, and go to state 90
+
+    $default  reduce using rule 63 (orOperand)
+
+
+State 52
+
+   65 andOperand: relationship .
+
+    $default  reduce using rule 65 (andOperand)
+
+
+State 53
+
+   66 relationship: summand . GT summand
+   67             | summand . LT summand
+   68             | summand . EQ summand
+   69             | summand . NEQ summand
+   70             | summand . GE summand
+   71             | summand . LE summand
+   72             | summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+    EQ     shift, and go to state 93
+    NEQ    shift, and go to state 94
+    LT     shift, and go to state 95
+    LE     shift, and go to state 96
+    GT     shift, and go to state 97
+    GE     shift, and go to state 98
+
+    $default  reduce using rule 72 (relationship)
+
+
+State 54
+
+   75 summand: factor .
+   76 factor: factor . STAR unary
+   77       | factor . SLASH unary
+   78       | factor . DIV unary
+   79       | factor . MOD unary
+
+    DIV    shift, and go to state 99
+    MOD    shift, and go to state 100
+    STAR   shift, and go to state 101
+    SLASH  shift, and go to state 102
+
+    $default  reduce using rule 75 (summand)
+
+
+State 55
+
+   80 factor: unary .
+
+    $default  reduce using rule 80 (factor)
+
+
+State 56
+
+   84 unary: term .
+
+    $default  reduce using rule 84 (unary)
+
+
+State 57
+
+   86 term: lvalue .
+   93 lvalue: lvalue . LBRACKET expression RBRACKET
+   94       | lvalue . DOT identifier
+
+    LBRACKET  shift, and go to state 67
+    DOT       shift, and go to state 68
+
+    $default  reduce using rule 86 (term)
+
+
+State 58
+
+   85 term: number .
+
+    $default  reduce using rule 85 (term)
+
+
+State 59
+
+   87 term: identifier . actualParams
+   88     | identifier . recordInits
+   89     | identifier . arrayInits
+   92 lvalue: identifier .
+
+    LPAREN     shift, and go to state 70
+    LBRACE     shift, and go to state 103
+    LABRACKET  shift, and go to state 104
+
+    $default  reduce using rule 92 (lvalue)
+
+    actualParams  go to state 105
+    recordInits   go to state 106
+    arrayInits    go to state 107
+
+
+State 60
+
+   91 term: constant .
+
+    $default  reduce using rule 91 (term)
+
+
+State 61
+
+   40 statement: WHILE expression . DO statementClosure END SEMICOLON
+
+    DO  shift, and go to state 108
+
+
+State 62
+
+   10 statementClosure: statementClosure . statement
+   41 statement: LOOP statementClosure . END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    END         shift, and go to state 109
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 63
+
+   42 statement: FOR identifier . ASSIGN expression TO expression statementByOption DO statementClosure END SEMICOLON
+
+    ASSIGN  shift, and go to state 110
+
+
+State 64
+
+   43 statement: EXIT SEMICOLON .
+
+    $default  reduce using rule 43 (statement)
+
+
+State 65
+
+   44 statement: RETURN expressionOption . SEMICOLON
+
+    SEMICOLON  shift, and go to state 111
+
+
+State 66
+
+   60 expressionOption: expression .
+
+    $default  reduce using rule 60 (expressionOption)
+
+
+State 67
+
+   93 lvalue: lvalue LBRACKET . expression RBRACKET
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 112
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 68
+
+   94 lvalue: lvalue DOT . identifier
+
+    IDENTIFIER  shift, and go to state 18
+
+    identifier  go to state 113
+
+
+State 69
+
+   35 statement: lvalue ASSIGN . expression SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 114
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 70
+
+   95 actualParams: LPAREN . expression actualParamsExprClosure RPAREN
+   96             | LPAREN . RPAREN
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    RPAREN      shift, and go to state 115
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 116
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 71
+
+   36 statement: identifier actualParams . SEMICOLON
+
+    SEMICOLON  shift, and go to state 117
+
+
+State 72
+
+   17 varDecl: identifier IDClosure . typenameOption ASSIGN expression SEMICOLON
+   19 IDClosure: IDClosure . COMMA identifier
+
+    COLON  shift, and go to state 118
+    COMMA  shift, and go to state 119
+
+    $default  reduce using rule 20 (typenameOption)
+
+    typenameOption  go to state 120
+
+
+State 73
+
+   22 typeDecl: identifier IS . type SEMICOLON
+
+    ARRAY   shift, and go to state 121
+    RECORD  shift, and go to state 122
+
+    type  go to state 123
+
+
+State 74
+
+   30 formalParams: LPAREN . RPAREN
+   31             | LPAREN . fpSection fpSectionClosure RPAREN
+
+    IDENTIFIER  shift, and go to state 18
+    RPAREN      shift, and go to state 124
+
+    fpSection   go to state 125
+    identifier  go to state 126
+
+
+State 75
+
+   23 procedureDecl: identifier formalParams . typenameOption IS body SEMICOLON
+
+    COLON  shift, and go to state 118
+
+    $default  reduce using rule 20 (typenameOption)
+
+    typenameOption  go to state 127
+
+
+State 76
+
+   37 statement: READ LPAREN lvalue . statementLvalueClosure RPAREN SEMICOLON
+   93 lvalue: lvalue . LBRACKET expression RBRACKET
+   94       | lvalue . DOT identifier
+
+    LBRACKET  shift, and go to state 67
+    DOT       shift, and go to state 68
+
+    $default  reduce using rule 45 (statementLvalueClosure)
+
+    statementLvalueClosure  go to state 128
+
+
+State 77
+
+   92 lvalue: identifier .
+
+    $default  reduce using rule 92 (lvalue)
+
+
+State 78
+
+  109 string: STRINGT .
+
+    $default  reduce using rule 109 (string)
+
+
+State 79
+
+   53 writeParams: LPAREN RPAREN .
+
+    $default  reduce using rule 53 (writeParams)
+
+
+State 80
+
+   54 writeParams: LPAREN writeExpr . writeParamsExprClosure RPAREN
+
+    $default  reduce using rule 55 (writeParamsExprClosure)
+
+    writeParamsExprClosure  go to state 129
+
+
+State 81
+
+   58 writeExpr: expression .
+
+    $default  reduce using rule 58 (writeExpr)
+
+
+State 82
+
+   57 writeExpr: string .
+
+    $default  reduce using rule 57 (writeExpr)
+
+
+State 83
+
+   38 statement: WRITE writeParams SEMICOLON .
+
+    $default  reduce using rule 38 (statement)
+
+
+State 84
+
+   83 unary: NOT unary .
+
+    $default  reduce using rule 83 (unary)
+
+
+State 85
+
+   90 term: LPAREN expression . RPAREN
+
+    RPAREN  shift, and go to state 130
+
+
+State 86
+
+   81 unary: PLUS unary .
+
+    $default  reduce using rule 81 (unary)
+
+
+State 87
+
+   82 unary: MINUS unary .
+
+    $default  reduce using rule 82 (unary)
+
+
+State 88
+
+   39 statement: IF expression THEN . statementClosure statementElsifClosure statementElseOption END SEMICOLON
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 131
+
+
+State 89
+
+   62 orOperand: orOperand OR . andOperand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    andOperand    go to state 132
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 90
+
+   64 andOperand: andOperand AND . relationship
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    relationship  go to state 133
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 91
+
+   73 summand: summand PLUS . factor
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    factor      go to state 134
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 92
+
+   74 summand: summand MINUS . factor
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    factor      go to state 135
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 93
+
+   68 relationship: summand EQ . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 136
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 94
+
+   69 relationship: summand NEQ . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 137
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 95
+
+   67 relationship: summand LT . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 138
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 96
+
+   71 relationship: summand LE . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 139
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 97
+
+   66 relationship: summand GT . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 140
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 98
+
+   70 relationship: summand GE . summand
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    summand     go to state 141
+    factor      go to state 54
+    unary       go to state 55
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 99
+
+   78 factor: factor DIV . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 142
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 100
+
+   79 factor: factor MOD . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 143
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 101
+
+   76 factor: factor STAR . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 144
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 102
+
+   77 factor: factor SLASH . unary
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    unary       go to state 145
+    term        go to state 56
+    lvalue      go to state 57
+    number      go to state 58
+    identifier  go to state 59
+    constant    go to state 60
+
+
+State 103
+
+   99 recordInits: LBRACE . identifier ASSIGN expression recordInitsPairClosure RBRACE
+
+    IDENTIFIER  shift, and go to state 18
+
+    identifier  go to state 146
+
+
+State 104
+
+  102 arrayInits: LABRACKET . arrayInit arrayInitClosure RABRACKET
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 147
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    arrayInit     go to state 148
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 105
+
+   87 term: identifier actualParams .
+
+    $default  reduce using rule 87 (term)
+
+
+State 106
+
+   88 term: identifier recordInits .
+
+    $default  reduce using rule 88 (term)
+
+
+State 107
+
+   89 term: identifier arrayInits .
+
+    $default  reduce using rule 89 (term)
+
+
+State 108
+
+   40 statement: WHILE expression DO . statementClosure END SEMICOLON
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 149
+
+
+State 109
+
+   41 statement: LOOP statementClosure END . SEMICOLON
+
+    SEMICOLON  shift, and go to state 150
+
+
+State 110
+
+   42 statement: FOR identifier ASSIGN . expression TO expression statementByOption DO statementClosure END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 151
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 111
+
+   44 statement: RETURN expressionOption SEMICOLON .
+
+    $default  reduce using rule 44 (statement)
+
+
+State 112
+
+   93 lvalue: lvalue LBRACKET expression . RBRACKET
+
+    RBRACKET  shift, and go to state 152
+
+
+State 113
+
+   94 lvalue: lvalue DOT identifier .
+
+    $default  reduce using rule 94 (lvalue)
+
+
+State 114
+
+   35 statement: lvalue ASSIGN expression . SEMICOLON
+
+    SEMICOLON  shift, and go to state 153
+
+
+State 115
+
+   96 actualParams: LPAREN RPAREN .
+
+    $default  reduce using rule 96 (actualParams)
+
+
+State 116
+
+   95 actualParams: LPAREN expression . actualParamsExprClosure RPAREN
+
+    $default  reduce using rule 97 (actualParamsExprClosure)
+
+    actualParamsExprClosure  go to state 154
+
+
+State 117
+
+   36 statement: identifier actualParams SEMICOLON .
+
+    $default  reduce using rule 36 (statement)
+
+
+State 118
+
+   21 typenameOption: COLON . typename
+
+    IDENTIFIER  shift, and go to state 18
+
+    typename    go to state 155
+    identifier  go to state 156
+
+
+State 119
+
+   19 IDClosure: IDClosure COMMA . identifier
+
+    IDENTIFIER  shift, and go to state 18
+
+    identifier  go to state 157
+
+
+State 120
+
+   17 varDecl: identifier IDClosure typenameOption . ASSIGN expression SEMICOLON
+
+    ASSIGN  shift, and go to state 158
+
+
+State 121
+
+   25 type: ARRAY . OF typename
+
+    OF  shift, and go to state 159
+
+
+State 122
+
+   26 type: RECORD . component componentClosure END
+
+    IDENTIFIER  shift, and go to state 18
+
+    component   go to state 160
+    identifier  go to state 161
+
+
+State 123
+
+   22 typeDecl: identifier IS type . SEMICOLON
+
+    SEMICOLON  shift, and go to state 162
+
+
+State 124
+
+   30 formalParams: LPAREN RPAREN .
+
+    $default  reduce using rule 30 (formalParams)
+
+
+State 125
+
+   31 formalParams: LPAREN fpSection . fpSectionClosure RPAREN
+
+    $default  reduce using rule 32 (fpSectionClosure)
+
+    fpSectionClosure  go to state 163
+
+
+State 126
+
+   34 fpSection: identifier . IDClosure COLON typename
+
+    $default  reduce using rule 18 (IDClosure)
+
+    IDClosure  go to state 164
+
+
+State 127
+
+   23 procedureDecl: identifier formalParams typenameOption . IS body SEMICOLON
+
+    IS  shift, and go to state 165
+
+
+State 128
+
+   37 statement: READ LPAREN lvalue statementLvalueClosure . RPAREN SEMICOLON
+   46 statementLvalueClosure: statementLvalueClosure . COMMA lvalue
+
+    RPAREN  shift, and go to state 166
+    COMMA   shift, and go to state 167
+
+
+State 129
+
+   54 writeParams: LPAREN writeExpr writeParamsExprClosure . RPAREN
+   56 writeParamsExprClosure: writeParamsExprClosure . COMMA writeExpr
+
+    RPAREN  shift, and go to state 168
+    COMMA   shift, and go to state 169
+
+
+State 130
+
+   90 term: LPAREN expression RPAREN .
+
+    $default  reduce using rule 90 (term)
+
+
+State 131
+
+   10 statementClosure: statementClosure . statement
+   39 statement: IF expression THEN statementClosure . statementElsifClosure statementElseOption END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    $default  reduce using rule 47 (statementElsifClosure)
+
+    statement              go to state 28
+    statementElsifClosure  go to state 170
+    lvalue                 go to state 29
+    identifier             go to state 30
+
+
+State 132
+
+   62 orOperand: orOperand OR andOperand .
+   64 andOperand: andOperand . AND relationship
+
+    AND  shift, and go to state 90
+
+    $default  reduce using rule 62 (orOperand)
+
+
+State 133
+
+   64 andOperand: andOperand AND relationship .
+
+    $default  reduce using rule 64 (andOperand)
+
+
+State 134
+
+   73 summand: summand PLUS factor .
+   76 factor: factor . STAR unary
+   77       | factor . SLASH unary
+   78       | factor . DIV unary
+   79       | factor . MOD unary
+
+    DIV    shift, and go to state 99
+    MOD    shift, and go to state 100
+    STAR   shift, and go to state 101
+    SLASH  shift, and go to state 102
+
+    $default  reduce using rule 73 (summand)
+
+
+State 135
+
+   74 summand: summand MINUS factor .
+   76 factor: factor . STAR unary
+   77       | factor . SLASH unary
+   78       | factor . DIV unary
+   79       | factor . MOD unary
+
+    DIV    shift, and go to state 99
+    MOD    shift, and go to state 100
+    STAR   shift, and go to state 101
+    SLASH  shift, and go to state 102
+
+    $default  reduce using rule 74 (summand)
+
+
+State 136
+
+   68 relationship: summand EQ summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 68 (relationship)
+
+
+State 137
+
+   69 relationship: summand NEQ summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 69 (relationship)
+
+
+State 138
+
+   67 relationship: summand LT summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 67 (relationship)
+
+
+State 139
+
+   71 relationship: summand LE summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 71 (relationship)
+
+
+State 140
+
+   66 relationship: summand GT summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 66 (relationship)
+
+
+State 141
+
+   70 relationship: summand GE summand .
+   73 summand: summand . PLUS factor
+   74        | summand . MINUS factor
+
+    PLUS   shift, and go to state 91
+    MINUS  shift, and go to state 92
+
+    $default  reduce using rule 70 (relationship)
+
+
+State 142
+
+   78 factor: factor DIV unary .
+
+    $default  reduce using rule 78 (factor)
+
+
+State 143
+
+   79 factor: factor MOD unary .
+
+    $default  reduce using rule 79 (factor)
+
+
+State 144
+
+   76 factor: factor STAR unary .
+
+    $default  reduce using rule 76 (factor)
+
+
+State 145
+
+   77 factor: factor SLASH unary .
+
+    $default  reduce using rule 77 (factor)
+
+
+State 146
+
+   99 recordInits: LBRACE identifier . ASSIGN expression recordInitsPairClosure RBRACE
+
+    ASSIGN  shift, and go to state 171
+
+
+State 147
+
+  105 arrayInit: expression .
+  106          | expression . OF expression
+
+    OF  shift, and go to state 172
+
+    $default  reduce using rule 105 (arrayInit)
+
+
+State 148
+
+  102 arrayInits: LABRACKET arrayInit . arrayInitClosure RABRACKET
+
+    $default  reduce using rule 103 (arrayInitClosure)
+
+    arrayInitClosure  go to state 173
+
+
+State 149
+
+   10 statementClosure: statementClosure . statement
+   40 statement: WHILE expression DO statementClosure . END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    END         shift, and go to state 174
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 150
+
+   41 statement: LOOP statementClosure END SEMICOLON .
+
+    $default  reduce using rule 41 (statement)
+
+
+State 151
+
+   42 statement: FOR identifier ASSIGN expression . TO expression statementByOption DO statementClosure END SEMICOLON
+
+    TO  shift, and go to state 175
+
+
+State 152
+
+   93 lvalue: lvalue LBRACKET expression RBRACKET .
+
+    $default  reduce using rule 93 (lvalue)
+
+
+State 153
+
+   35 statement: lvalue ASSIGN expression SEMICOLON .
+
+    $default  reduce using rule 35 (statement)
+
+
+State 154
+
+   95 actualParams: LPAREN expression actualParamsExprClosure . RPAREN
+   98 actualParamsExprClosure: actualParamsExprClosure . COMMA expression
+
+    RPAREN  shift, and go to state 176
+    COMMA   shift, and go to state 177
+
+
+State 155
+
+   21 typenameOption: COLON typename .
+
+    $default  reduce using rule 21 (typenameOption)
+
+
+State 156
+
+   24 typename: identifier .
+
+    $default  reduce using rule 24 (typename)
+
+
+State 157
+
+   19 IDClosure: IDClosure COMMA identifier .
+
+    $default  reduce using rule 19 (IDClosure)
+
+
+State 158
+
+   17 varDecl: identifier IDClosure typenameOption ASSIGN . expression SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 178
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 159
+
+   25 type: ARRAY OF . typename
+
+    IDENTIFIER  shift, and go to state 18
+
+    typename    go to state 179
+    identifier  go to state 156
+
+
+State 160
+
+   26 type: RECORD component . componentClosure END
+
+    $default  reduce using rule 27 (componentClosure)
+
+    componentClosure  go to state 180
+
+
+State 161
+
+   29 component: identifier . COLON typename SEMICOLON
+
+    COLON  shift, and go to state 181
+
+
+State 162
+
+   22 typeDecl: identifier IS type SEMICOLON .
+
+    $default  reduce using rule 22 (typeDecl)
+
+
+State 163
+
+   31 formalParams: LPAREN fpSection fpSectionClosure . RPAREN
+   33 fpSectionClosure: fpSectionClosure . SEMICOLON fpSection
+
+    RPAREN     shift, and go to state 182
+    SEMICOLON  shift, and go to state 183
+
+
+State 164
+
+   19 IDClosure: IDClosure . COMMA identifier
+   34 fpSection: identifier IDClosure . COLON typename
+
+    COLON  shift, and go to state 184
+    COMMA  shift, and go to state 119
+
+
+State 165
+
+   23 procedureDecl: identifier formalParams typenameOption IS . body SEMICOLON
+
+    $default  reduce using rule 4 (declarationClosure)
+
+    body                go to state 185
+    declarationClosure  go to state 7
+
+
+State 166
+
+   37 statement: READ LPAREN lvalue statementLvalueClosure RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 186
+
+
+State 167
+
+   46 statementLvalueClosure: statementLvalueClosure COMMA . lvalue
+
+    IDENTIFIER  shift, and go to state 18
+
+    lvalue      go to state 187
+    identifier  go to state 77
+
+
+State 168
+
+   54 writeParams: LPAREN writeExpr writeParamsExprClosure RPAREN .
+
+    $default  reduce using rule 54 (writeParams)
+
+
+State 169
+
+   56 writeParamsExprClosure: writeParamsExprClosure COMMA . writeExpr
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    STRINGT     shift, and go to state 78
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    writeExpr     go to state 188
+    expression    go to state 81
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    string        go to state 82
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 170
+
+   39 statement: IF expression THEN statementClosure statementElsifClosure . statementElseOption END SEMICOLON
+   48 statementElsifClosure: statementElsifClosure . ELSIF expression THEN statementClosure
+
+    ELSE   shift, and go to state 189
+    ELSIF  shift, and go to state 190
+
+    $default  reduce using rule 49 (statementElseOption)
+
+    statementElseOption  go to state 191
+
+
+State 171
+
+   99 recordInits: LBRACE identifier ASSIGN . expression recordInitsPairClosure RBRACE
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 192
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 172
+
+  106 arrayInit: expression OF . expression
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 193
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 173
+
+  102 arrayInits: LABRACKET arrayInit arrayInitClosure . RABRACKET
+  104 arrayInitClosure: arrayInitClosure . COMMA arrayInit
+
+    COMMA      shift, and go to state 194
+    RABRACKET  shift, and go to state 195
+
+
+State 174
+
+   40 statement: WHILE expression DO statementClosure END . SEMICOLON
+
+    SEMICOLON  shift, and go to state 196
+
+
+State 175
+
+   42 statement: FOR identifier ASSIGN expression TO . expression statementByOption DO statementClosure END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 197
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 176
+
+   95 actualParams: LPAREN expression actualParamsExprClosure RPAREN .
+
+    $default  reduce using rule 95 (actualParams)
+
+
+State 177
+
+   98 actualParamsExprClosure: actualParamsExprClosure COMMA . expression
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 198
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 178
+
+   17 varDecl: identifier IDClosure typenameOption ASSIGN expression . SEMICOLON
+
+    SEMICOLON  shift, and go to state 199
+
+
+State 179
+
+   25 type: ARRAY OF typename .
+
+    $default  reduce using rule 25 (type)
+
+
+State 180
+
+   26 type: RECORD component componentClosure . END
+   28 componentClosure: componentClosure . component
+
+    IDENTIFIER  shift, and go to state 18
+    END         shift, and go to state 200
+
+    component   go to state 201
+    identifier  go to state 161
+
+
+State 181
+
+   29 component: identifier COLON . typename SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+
+    typename    go to state 202
+    identifier  go to state 156
+
+
+State 182
+
+   31 formalParams: LPAREN fpSection fpSectionClosure RPAREN .
+
+    $default  reduce using rule 31 (formalParams)
+
+
+State 183
+
+   33 fpSectionClosure: fpSectionClosure SEMICOLON . fpSection
+
+    IDENTIFIER  shift, and go to state 18
+
+    fpSection   go to state 203
+    identifier  go to state 126
+
+
+State 184
+
+   34 fpSection: identifier IDClosure COLON . typename
+
+    IDENTIFIER  shift, and go to state 18
+
+    typename    go to state 204
+    identifier  go to state 156
+
+
+State 185
+
+   23 procedureDecl: identifier formalParams typenameOption IS body . SEMICOLON
+
+    SEMICOLON  shift, and go to state 205
+
+
+State 186
+
+   37 statement: READ LPAREN lvalue statementLvalueClosure RPAREN SEMICOLON .
+
+    $default  reduce using rule 37 (statement)
+
+
+State 187
+
+   46 statementLvalueClosure: statementLvalueClosure COMMA lvalue .
+   93 lvalue: lvalue . LBRACKET expression RBRACKET
+   94       | lvalue . DOT identifier
+
+    LBRACKET  shift, and go to state 67
+    DOT       shift, and go to state 68
+
+    $default  reduce using rule 46 (statementLvalueClosure)
+
+
+State 188
+
+   56 writeParamsExprClosure: writeParamsExprClosure COMMA writeExpr .
+
+    $default  reduce using rule 56 (writeParamsExprClosure)
+
+
+State 189
+
+   50 statementElseOption: ELSE . statementClosure
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 206
+
+
+State 190
+
+   48 statementElsifClosure: statementElsifClosure ELSIF . expression THEN statementClosure
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 207
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 191
+
+   39 statement: IF expression THEN statementClosure statementElsifClosure statementElseOption . END SEMICOLON
+
+    END  shift, and go to state 208
+
+
+State 192
+
+   99 recordInits: LBRACE identifier ASSIGN expression . recordInitsPairClosure RBRACE
+
+    $default  reduce using rule 100 (recordInitsPairClosure)
+
+    recordInitsPairClosure  go to state 209
+
+
+State 193
+
+  106 arrayInit: expression OF expression .
+
+    $default  reduce using rule 106 (arrayInit)
+
+
+State 194
+
+  104 arrayInitClosure: arrayInitClosure COMMA . arrayInit
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 147
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    arrayInit     go to state 210
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 195
+
+  102 arrayInits: LABRACKET arrayInit arrayInitClosure RABRACKET .
+
+    $default  reduce using rule 102 (arrayInits)
+
+
+State 196
+
+   40 statement: WHILE expression DO statementClosure END SEMICOLON .
+
+    $default  reduce using rule 40 (statement)
+
+
+State 197
+
+   42 statement: FOR identifier ASSIGN expression TO expression . statementByOption DO statementClosure END SEMICOLON
+
+    BY  shift, and go to state 211
+
+    $default  reduce using rule 51 (statementByOption)
+
+    statementByOption  go to state 212
+
+
+State 198
+
+   98 actualParamsExprClosure: actualParamsExprClosure COMMA expression .
+
+    $default  reduce using rule 98 (actualParamsExprClosure)
+
+
+State 199
+
+   17 varDecl: identifier IDClosure typenameOption ASSIGN expression SEMICOLON .
+
+    $default  reduce using rule 17 (varDecl)
+
+
+State 200
+
+   26 type: RECORD component componentClosure END .
+
+    $default  reduce using rule 26 (type)
+
+
+State 201
+
+   28 componentClosure: componentClosure component .
+
+    $default  reduce using rule 28 (componentClosure)
+
+
+State 202
+
+   29 component: identifier COLON typename . SEMICOLON
+
+    SEMICOLON  shift, and go to state 213
+
+
+State 203
+
+   33 fpSectionClosure: fpSectionClosure SEMICOLON fpSection .
+
+    $default  reduce using rule 33 (fpSectionClosure)
+
+
+State 204
+
+   34 fpSection: identifier IDClosure COLON typename .
+
+    $default  reduce using rule 34 (fpSection)
+
+
+State 205
+
+   23 procedureDecl: identifier formalParams typenameOption IS body SEMICOLON .
+
+    $default  reduce using rule 23 (procedureDecl)
+
+
+State 206
+
+   10 statementClosure: statementClosure . statement
+   50 statementElseOption: ELSE statementClosure .
+
+    IDENTIFIER  shift, and go to state 18
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    $default  reduce using rule 50 (statementElseOption)
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 207
+
+   48 statementElsifClosure: statementElsifClosure ELSIF expression . THEN statementClosure
+
+    THEN  shift, and go to state 214
+
+
+State 208
+
+   39 statement: IF expression THEN statementClosure statementElsifClosure statementElseOption END . SEMICOLON
+
+    SEMICOLON  shift, and go to state 215
+
+
+State 209
+
+   99 recordInits: LBRACE identifier ASSIGN expression recordInitsPairClosure . RBRACE
+  101 recordInitsPairClosure: recordInitsPairClosure . SEMICOLON identifier ASSIGN expression
+
+    RBRACE     shift, and go to state 216
+    SEMICOLON  shift, and go to state 217
+
+
+State 210
+
+  104 arrayInitClosure: arrayInitClosure COMMA arrayInit .
+
+    $default  reduce using rule 104 (arrayInitClosure)
+
+
+State 211
+
+   52 statementByOption: BY . expression
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 218
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 212
+
+   42 statement: FOR identifier ASSIGN expression TO expression statementByOption . DO statementClosure END SEMICOLON
+
+    DO  shift, and go to state 219
+
+
+State 213
+
+   29 component: identifier COLON typename SEMICOLON .
+
+    $default  reduce using rule 29 (component)
+
+
+State 214
+
+   48 statementElsifClosure: statementElsifClosure ELSIF expression THEN . statementClosure
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 220
+
+
+State 215
+
+   39 statement: IF expression THEN statementClosure statementElsifClosure statementElseOption END SEMICOLON .
+
+    $default  reduce using rule 39 (statement)
+
+
+State 216
+
+   99 recordInits: LBRACE identifier ASSIGN expression recordInitsPairClosure RBRACE .
+
+    $default  reduce using rule 99 (recordInits)
+
+
+State 217
+
+  101 recordInitsPairClosure: recordInitsPairClosure SEMICOLON . identifier ASSIGN expression
+
+    IDENTIFIER  shift, and go to state 18
+
+    identifier  go to state 221
+
+
+State 218
+
+   52 statementByOption: BY expression .
+
+    $default  reduce using rule 52 (statementByOption)
+
+
+State 219
+
+   42 statement: FOR identifier ASSIGN expression TO expression statementByOption DO . statementClosure END SEMICOLON
+
+    $default  reduce using rule 9 (statementClosure)
+
+    statementClosure  go to state 222
+
+
+State 220
+
+   10 statementClosure: statementClosure . statement
+   48 statementElsifClosure: statementElsifClosure ELSIF expression THEN statementClosure .
+
+    IDENTIFIER  shift, and go to state 18
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    $default  reduce using rule 48 (statementElsifClosure)
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 221
+
+  101 recordInitsPairClosure: recordInitsPairClosure SEMICOLON identifier . ASSIGN expression
+
+    ASSIGN  shift, and go to state 223
+
+
+State 222
+
+   10 statementClosure: statementClosure . statement
+   42 statement: FOR identifier ASSIGN expression TO expression statementByOption DO statementClosure . END SEMICOLON
+
+    IDENTIFIER  shift, and go to state 18
+    END         shift, and go to state 224
+    READ        shift, and go to state 20
+    WRITE       shift, and go to state 21
+    IF          shift, and go to state 22
+    WHILE       shift, and go to state 23
+    LOOP        shift, and go to state 24
+    FOR         shift, and go to state 25
+    EXIT        shift, and go to state 26
+    RETURN      shift, and go to state 27
+
+    statement   go to state 28
+    lvalue      go to state 29
+    identifier  go to state 30
+
+
+State 223
+
+  101 recordInitsPairClosure: recordInitsPairClosure SEMICOLON identifier ASSIGN . expression
+
+    IDENTIFIER  shift, and go to state 18
+    INTEGERT    shift, and go to state 40
+    REALT       shift, and go to state 41
+    NOT         shift, and go to state 42
+    LPAREN      shift, and go to state 43
+    PLUS        shift, and go to state 44
+    MINUS       shift, and go to state 45
+    TRUET       shift, and go to state 46
+    FALSET      shift, and go to state 47
+    NILT        shift, and go to state 48
+
+    expression    go to state 225
+    orOperand     go to state 50
+    andOperand    go to state 51
+    relationship  go to state 52
+    summand       go to state 53
+    factor        go to state 54
+    unary         go to state 55
+    term          go to state 56
+    lvalue        go to state 57
+    number        go to state 58
+    identifier    go to state 59
+    constant      go to state 60
+
+
+State 224
+
+   42 statement: FOR identifier ASSIGN expression TO expression statementByOption DO statementClosure END . SEMICOLON
+
+    SEMICOLON  shift, and go to state 226
+
+
+State 225
+
+  101 recordInitsPairClosure: recordInitsPairClosure SEMICOLON identifier ASSIGN expression .
+
+    $default  reduce using rule 101 (recordInitsPairClosure)
+
+
+State 226
+
+   42 statement: FOR identifier ASSIGN expression TO expression statementByOption DO statementClosure END SEMICOLON .
+
+    $default  reduce using rule 42 (statement)
