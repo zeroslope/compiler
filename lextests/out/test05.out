@@ -1,0 +1,225 @@
+PROGRAM
+IS
+VAR
+identifier (I)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+TYPE
+identifier (COMPLEX)
+IS
+RECORD
+identifier (R)
+:
+identifier (REAL)
+;
+identifier (I)
+:
+identifier (REAL)
+;
+END
+;
+TYPE
+identifier (PAIR)
+IS
+RECORD
+identifier (FIRST)
+:
+identifier (COMPLEX)
+;
+identifier (SECOND)
+:
+identifier (COMPLEX)
+;
+END
+;
+VAR
+identifier (C)
+:
+identifier (COMPLEX)
+:=
+identifier (COMPLEX)
+{
+identifier (R)
+:=
+real (0.0)
+;
+identifier (I)
+:=
+real (0.0)
+}
+;
+VAR
+identifier (P)
+:
+identifier (PAIR)
+:=
+identifier (PAIR)
+{
+identifier (FIRST)
+:=
+identifier (COMPLEX)
+{
+identifier (R)
+:=
+real (0.0)
+;
+identifier (I)
+:=
+real (0.0)
+}
+;
+identifier (SECOND)
+:=
+identifier (COMPLEX)
+{
+identifier (R)
+:=
+real (0.0)
+;
+identifier (I)
+:=
+real (0.0)
+}
+}
+;
+PROCEDURE
+identifier (PRINT)
+(
+)
+IS
+BEGIN
+WRITE
+(
+string ("    (")
+,
+identifier (C)
+.
+identifier (R)
+,
+string (", ")
+,
+identifier (C)
+.
+identifier (I)
+,
+string (")")
+)
+;
+END
+;
+BEGIN
+identifier (C)
+.
+identifier (R)
+:=
+real (1.0)
+;
+identifier (C)
+.
+identifier (I)
+:=
+real (0.0)
+;
+identifier (P)
+.
+identifier (FIRST)
+:=
+identifier (C)
+;
+identifier (C)
+.
+identifier (R)
+:=
+real (0.0)
+;
+identifier (C)
+.
+identifier (I)
+:=
+real (1.0)
+;
+identifier (P)
+.
+identifier (SECOND)
+:=
+identifier (C)
+;
+identifier (C)
+:=
+identifier (P)
+.
+identifier (FIRST)
+;
+WRITE
+(
+string ("The first complex number should be (1.0, 0.0):")
+)
+;
+identifier (PRINT)
+(
+)
+;
+identifier (C)
+:=
+identifier (P)
+.
+identifier (SECOND)
+;
+WRITE
+(
+string ("The second complex number should be (0.0, 1.0):")
+)
+;
+identifier (PRINT)
+(
+)
+;
+IF
+identifier (P)
+.
+identifier (FIRST)
+.
+identifier (R)
+<>
+identifier (P)
+.
+identifier (SECOND)
+.
+identifier (R)
+THEN
+WRITE
+(
+string ("and these two complex numbers are not equal!")
+)
+;
+ELSIF
+identifier (P)
+.
+identifier (FIRST)
+.
+identifier (I)
+<>
+identifier (P)
+.
+identifier (SECOND)
+.
+identifier (I)
+THEN
+WRITE
+(
+string ("and these two complex numbers are not equal!")
+)
+;
+ELSE
+WRITE
+(
+string ("and these two complex numbers are equal?")
+)
+;
+END
+;
+END
+;

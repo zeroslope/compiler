@@ -1,0 +1,96 @@
+PROGRAM
+IS
+VAR
+identifier (A)
+,
+identifier (B)
+:
+identifier (REAL)
+:=
+real (0.0)
+;
+VAR
+identifier (I)
+,
+identifier (J)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+BEGIN
+identifier (A)
+:=
+real (5.0)
+;
+identifier (I)
+:=
+-
+integer (3)
+;
+identifier (J)
+:=
+identifier (I)
+*
+integer (10)
+;
+identifier (B)
+:=
+identifier (A)
++
+identifier (I)
+;
+identifier (A)
+:=
+identifier (J)
+/
+identifier (B)
+;
+identifier (J)
+:=
+identifier (I)
+-
+identifier (J)
+;
+identifier (I)
+:=
+identifier (J)
+/
+identifier (I)
+;
+identifier (B)
+:=
+identifier (I)
+-
+identifier (B)
+;
+WRITE
+(
+string (" A = ")
+,
+-
+identifier (A)
+,
+string (" | B = ")
+,
+identifier (B)
+)
+;
+WRITE
+(
+string ("")
+)
+;
+WRITE
+(
+string (" I = ")
+,
+identifier (I)
+,
+string (" |  J = ")
+,
+identifier (J)
+)
+;
+END
+;

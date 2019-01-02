@@ -1,0 +1,28 @@
+[Accept]
+(bodyNode[3,10:3] (declarationNode[3,10:8] 
+	(varDeclList[4,5:25] (varDecl[4,9:25] (idsNode[4,9:9] I) INTEGER 0)) 
+	(typeDeclList[5,5:50] (typeDecl[5,10:50] (recordType[5,21:49] (componentDecl[5,28:35] R REAL) (componentDecl[5,37:45] I REAL)))) 
+	(typeDeclList[6,5:62] (typeDecl[6,10:62] (recordType[6,18:61] (componentDecl[6,25:39] FIRST COMPLEX) (componentDecl[6,41:57] SECOND COMPLEX)))) 
+	(varDeclList[7,5:54] (varDecl[7,9:54] (idsNode[7,9:9] C) COMPLEX (arrayInitExp[7,24:53] COMPLEX (fieldInitsNode[7,32:53] (fieldInitAssign[7,34:41] R 0.000000) (fieldInitAssign[7,44:51] I 0.000000))))) 
+	(varDeclList[8,5:70] (varDecl[8,9:70] (idsNode[8,9:9] P) PAIR (arrayInitExp[8,21:69] PAIR (fieldInitsNode[8,26:69] (fieldInitAssign[8,28:66] FIRST (arrayInitExp[8,37:66] COMPLEX (fieldInitsNode[8,45:66] (fieldInitAssign[8,47:54] R 0.000000) (fieldInitAssign[8,57:64] I 0.000000)))) 
+		(fieldInitAssign[9,28:67] SECOND (arrayInitExp[9,38:67] COMPLEX (fieldInitsNode[9,46:67] (fieldInitAssign[9,48:55] R 0.000000) (fieldInitAssign[9,58:65] I 0.000000)))))))) 
+	(procedureDeclList[10,5:8] (procedureDecl[10,15:8] PRINT (paramNode[10,20:21]) (NULL) (bodyNode[10,24:7] (declarationNode[10,24:24]) (statNode[10,30:37] 
+		(writeSt[11,2:37] (ioArgsNode[11,7:36]     ( (memberExp[11,17:19] C R) ,  (memberExp[11,28:30] C I) )))))))) 
+	(statNode[13,5:8] 
+		(assignSt[14,5:15] (memberExp[14,5:7] C R) 1.000000) 
+		(assignSt[15,5:15] (memberExp[15,5:7] C I) 0.000000) 
+		(assignSt[16,5:17] (memberExp[16,5:11] P FIRST) C) 
+		(assignSt[17,5:15] (memberExp[17,5:7] C R) 0.000000) 
+		(assignSt[18,5:15] (memberExp[18,5:7] C I) 1.000000) 
+		(assignSt[19,5:18] (memberExp[19,5:12] P SECOND) C) 
+		(assignSt[20,5:17] C (memberExp[20,10:16] P FIRST)) 
+		(writeSt[21,5:61] (ioArgsNode[21,11:60] The first complex number should be (1.0, 0.0):)) 
+		(funcCallExp[22,5:12] PRINT (argsNode[22,10:11])) 
+		(assignSt[23,5:18] C (memberExp[23,10:17] P SECOND)) 
+		(writeSt[24,5:62] (ioArgsNode[24,11:61] The second complex number should be (0.0, 1.0):)) 
+		(funcCallExp[25,5:12] PRINT (argsNode[25,10:11])) 
+		(IfSt[26,5:8] (ifElementNode[26,5:56] (neqExp[26,8:30] (memberExp[26,8:16] (memberExp[26,8:14] P FIRST) R) (memberExp[26,21:30] (memberExp[26,21:28] P SECOND) R)) ) 
+			(statNode[27,56:56] 
+				(ifElementNode[28,11:56] (neqExp[28,11:33] (memberExp[28,11:19] (memberExp[28,11:17] P FIRST) I) (memberExp[28,24:33] (memberExp[28,24:31] P SECOND) I)) )) 
+			(elseElementNode[30,5:52] ))))
+[END]

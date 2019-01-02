@@ -1,0 +1,13 @@
+[Accept]
+(bodyNode[3,10:3] (declarationNode[3,10:20] 
+	(varDeclList[4,5:20] (varDecl[4,9:27] (idsNode[4,9:12] A B) REAL 0.000000) 
+		(varDecl[5,5:20] (idsNode[5,5:5] C) REAL 0.000000))) 
+	(statNode[6,5:25] 
+		(writeSt[7,5:31] (ioArgsNode[7,11:30] ENTER TWO REALS:)) 
+		(readSt[8,5:16] A B) 
+		(assignSt[9,5:13] C 8.000000) 
+		(writeSt[10,5:42] (ioArgsNode[10,11:41] A= A , B= B , C= C)) 
+		(assignSt[11,5:22] C (plusExp[11,10:21] (minusExp[11,10:17] A (negExp[11,15:16] B)) C)) 
+		(assignSt[12,5:19] C (plusExp[12,10:18] (timesExp[12,10:14] C A) 1)) 
+		(writeSt[13,5:25] (ioArgsNode[13,11:24] (floatDivExp[13,13:23] (negExp[13,13:14] C) (plusExp[13,18:22] A 1))))))
+[END]

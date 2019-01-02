@@ -1,0 +1,65 @@
+PROGRAM
+IS
+VAR
+identifier (I)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+PROCEDURE
+identifier (ADDONE)
+(
+)
+IS
+BEGIN
+identifier (I)
+:=
+identifier (I)
++
+integer (1)
+;
+END
+;
+PROCEDURE
+identifier (PASSTHEBUCK)
+(
+)
+IS
+BEGIN
+identifier (ADDONE)
+(
+)
+;
+END
+;
+BEGIN
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+,
+string (" (SHOULD BE 0)")
+)
+;
+identifier (PASSTHEBUCK)
+(
+)
+;
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+,
+string (" (SHOULD BE 1)")
+)
+;
+WRITE
+(
+string ("ALL DONE!")
+)
+;
+END
+;

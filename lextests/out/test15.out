@@ -1,0 +1,108 @@
+PROGRAM
+IS
+VAR
+identifier (I)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+PROCEDURE
+identifier (ADDONE)
+(
+)
+IS
+VAR
+identifier (J)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+PROCEDURE
+identifier (OKAY)
+(
+)
+IS
+VAR
+identifier (CONSTANT)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+BEGIN
+identifier (CONSTANT)
+:=
+integer (1)
+;
+identifier (J)
+:=
+identifier (J)
++
+identifier (CONSTANT)
+;
+END
+;
+BEGIN
+identifier (J)
+:=
+identifier (I)
+;
+identifier (OKAY)
+(
+)
+;
+identifier (I)
+:=
+identifier (J)
+;
+END
+;
+BEGIN
+identifier (I)
+:=
+integer (0)
+;
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+,
+string (" (SHOULD BE 0)")
+)
+;
+identifier (ADDONE)
+(
+)
+;
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+,
+string (" (SHOULD BE 1)")
+)
+;
+identifier (ADDONE)
+(
+)
+;
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+,
+string (" (SHOULD BE 2)")
+)
+;
+WRITE
+(
+string ("ALL DONE!")
+)
+;
+END
+;

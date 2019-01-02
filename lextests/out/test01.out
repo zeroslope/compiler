@@ -1,0 +1,50 @@
+PROGRAM
+IS
+VAR
+identifier (i)
+,
+identifier (j)
+:
+identifier (INTEGER)
+:=
+integer (1)
+;
+VAR
+identifier (x)
+:
+identifier (REAL)
+:=
+real (2.0)
+;
+VAR
+identifier (y)
+:
+identifier (REAL)
+:=
+real (3.0)
+;
+BEGIN
+WRITE
+(
+string ("i = ")
+,
+identifier (i)
+,
+string (", j = ")
+,
+identifier (j)
+)
+;
+WRITE
+(
+string ("x = ")
+,
+identifier (x)
+,
+string (", y = ")
+,
+identifier (y)
+)
+;
+END
+;

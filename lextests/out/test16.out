@@ -1,0 +1,120 @@
+PROGRAM
+IS
+VAR
+identifier (I)
+,
+identifier (J)
+,
+identifier (ANSWER)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+PROCEDURE
+identifier (FACTORIAL)
+(
+)
+IS
+PROCEDURE
+identifier (FACT)
+(
+)
+IS
+BEGIN
+identifier (MULT)
+(
+)
+;
+IF
+identifier (J)
+<>
+identifier (I)
+THEN
+identifier (J)
+:=
+identifier (J)
++
+integer (1)
+;
+identifier (FACT)
+(
+)
+;
+END
+;
+END
+;
+identifier (MULT)
+(
+)
+IS
+BEGIN
+identifier (ANSWER)
+:=
+identifier (ANSWER)
+*
+identifier (J)
+;
+END
+;
+BEGIN
+identifier (ANSWER)
+:=
+integer (1)
+;
+identifier (J)
+:=
+integer (1)
+;
+identifier (FACT)
+(
+)
+;
+END
+;
+BEGIN
+WRITE
+(
+string ("The first 5 factorials are (in descending order):")
+)
+;
+identifier (I)
+:=
+integer (5)
+;
+LOOP
+IF
+identifier (I)
+<=
+integer (0)
+THEN
+EXIT
+;
+END
+;
+identifier (FACTORIAL)
+(
+)
+;
+WRITE
+(
+string ("FACTORIAL(")
+,
+identifier (I)
+,
+string (") = ")
+,
+identifier (ANSWER)
+)
+;
+identifier (I)
+:=
+identifier (I)
+-
+integer (1)
+;
+END
+;
+END
+;

@@ -1,0 +1,45 @@
+PROGRAM
+IS
+VAR
+identifier (A)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+VAR
+identifier (B)
+:
+identifier (BOOLEAN)
+:=
+identifier (FALSE)
+;
+BEGIN
+WHILE
+NOT
+identifier (B)
+DO
+identifier (A)
+:=
+identifier (A)
++
+integer (1)
+;
+identifier (B)
+:=
+identifier (A)
+>
+integer (100)
+;
+END
+WRITE
+(
+string ("A = ")
+,
+identifier (A)
+,
+string (" (SHOULD BE 101)")
+)
+;
+END
+;

@@ -1,0 +1,12 @@
+[Accept]
+(bodyNode[4,10:3] (declarationNode[4,10:51] 
+	(varDeclList[5,5:25] (varDecl[5,9:25] (idsNode[5,9:9] I) INTEGER 0)) 
+	(procedureDeclList[6,5:8] (procedureDecl[6,15:8] ADDONE (paramNode[6,21:22]) (NULL) (bodyNode[6,25:7] (declarationNode[6,25:25]) (statNode[6,31:12] 
+		(assignSt[7,2:12] I (plusExp[7,7:11] I 1)))))) 
+	(procedureDeclList[9,5:51] (procedureDecl[9,15:51] PASSTHEBUCK (paramNode[9,26:27]) (NULL) (bodyNode[9,30:50] (declarationNode[9,30:30]) (statNode[9,36:46] (funcCallExp[9,38:46] ADDONE (argsNode[9,44:45]))))))) 
+	(statNode[10,5:23] 
+		(writeSt[11,5:39] (ioArgsNode[11,10:38] I =  I  (SHOULD BE 0))) 
+		(funcCallExp[12,5:18] PASSTHEBUCK (argsNode[12,16:17])) 
+		(writeSt[13,5:39] (ioArgsNode[13,10:38] I =  I  (SHOULD BE 1))) 
+		(writeSt[14,5:23] (ioArgsNode[14,10:22] ALL DONE!))))
+[END]

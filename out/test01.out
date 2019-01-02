@@ -1,0 +1,9 @@
+[Accept]
+(bodyNode[4,10:3] (declarationNode[4,10:24] 
+	(varDeclList[5,5:28] (varDecl[5,9:28] (idsNode[5,9:12] i j) INTEGER 1)) 
+	(varDeclList[6,5:24] (varDecl[6,9:24] (idsNode[6,9:9] x) REAL 2.000000)) 
+	(varDeclList[7,5:24] (varDecl[7,9:24] (idsNode[7,9:9] y) REAL 3.000000))) 
+	(statNode[8,5:35] 
+		(writeSt[9,5:35] (ioArgsNode[9,11:34] i =  i , j =  j)) 
+		(writeSt[10,5:35] (ioArgsNode[10,11:34] x =  x , y =  y))))
+[END]

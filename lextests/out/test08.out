@@ -1,0 +1,68 @@
+PROGRAM
+IS
+PROCEDURE
+identifier (FOO)
+(
+identifier (X)
+:
+identifier (INT)
+;
+identifier (Y)
+:
+identifier (REAL)
+)
+:
+identifier (REAL)
+IS
+PROCEDURE
+identifier (BAR)
+(
+)
+IS
+BEGIN
+identifier (Y)
+:=
+identifier (X)
++
+real (1.0)
+;
+END
+;
+BEGIN
+identifier (BAR)
+(
+)
+;
+RETURN
+identifier (Y)
+;
+END
+;
+VAR
+identifier (C)
+:
+identifier (REAL)
+:=
+integer (0)
+;
+BEGIN
+identifier (C)
+:=
+identifier (FOO)
+(
+integer (3)
+,
+real (2.0)
+)
+;
+WRITE
+(
+string ("C = ")
+,
+identifier (C)
+,
+string (" (should be 4.0)")
+)
+;
+END
+;

@@ -1,0 +1,17 @@
+[Accept]
+(bodyNode[2,10:3] (declarationNode[2,10:28] 
+	(varDeclList[3,5:27] (varDecl[3,9:27] (idsNode[3,9:12] A B) REAL 0.000000)) 
+	(varDeclList[4,5:28] (varDecl[4,9:28] (idsNode[4,9:12] I J) INTEGER 0))) 
+	(statNode[5,5:40] 
+		(assignSt[6,5:13] A 5.000000) 
+		(assignSt[7,5:12] I (negExp[7,10:11] 3)) 
+		(assignSt[8,5:16] J (timesExp[8,10:15] I 10)) 
+		(assignSt[9,5:15] B (plusExp[9,10:14] A I)) 
+		(assignSt[10,5:15] A (floatDivExp[10,10:14] J B)) 
+		(assignSt[11,5:15] J (minusExp[11,10:14] I J)) 
+		(assignSt[12,5:15] I (floatDivExp[12,10:14] J I)) 
+		(assignSt[13,5:15] B (minusExp[13,10:14] I B)) 
+		(writeSt[14,5:39] (ioArgsNode[14,11:38]  A =  (negExp[14,22:23] A)  | B =  B)) 
+		(writeSt[15,5:17] (ioArgsNode[15,11:16] )) 
+		(writeSt[16,5:40] (ioArgsNode[16,11:39]  I =  I  |  J =  J))))
+[END]

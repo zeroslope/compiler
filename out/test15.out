@@ -1,0 +1,23 @@
+[Accept]
+(bodyNode[4,10:3] (declarationNode[4,10:8] 
+	(varDeclList[5,5:25] (varDecl[5,9:25] (idsNode[5,9:9] I) INTEGER 0)) 
+	(procedureDeclList[6,5:8] (procedureDecl[6,15:8] ADDONE (paramNode[6,21:22]) (NULL) (bodyNode[6,25:7] (declarationNode[6,25:5] 
+		(varDeclList[7,2:22] (varDecl[7,6:22] (idsNode[7,6:6] J) INTEGER 0)) 
+		(procedureDeclList[8,2:5] (procedureDecl[8,12:5] OKAY (paramNode[8,16:17]) (NULL) (bodyNode[8,20:4] (declarationNode[8,20:33] 
+			(varDeclList[9,6:33] (varDecl[9,10:33] (idsNode[9,10:17] CONSTANT) INTEGER 0))) 
+			(statNode[10,6:23] 
+				(assignSt[11,6:19] CONSTANT 1) 
+				(assignSt[12,6:23] J (plusExp[12,11:22] J CONSTANT))))))) 
+		(statNode[14,9:8] 
+			(assignSt[15,2:8] J I) 
+			(funcCallExp[16,2:8] OKAY (argsNode[16,6:7])) 
+			(assignSt[17,2:8] I J)))))) 
+	(statNode[19,5:23] 
+		(assignSt[20,5:11] I 0) 
+		(writeSt[21,5:39] (ioArgsNode[21,10:38] I =  I  (SHOULD BE 0))) 
+		(funcCallExp[22,5:13] ADDONE (argsNode[22,11:12])) 
+		(writeSt[23,5:39] (ioArgsNode[23,10:38] I =  I  (SHOULD BE 1))) 
+		(funcCallExp[24,5:13] ADDONE (argsNode[24,11:12])) 
+		(writeSt[25,5:39] (ioArgsNode[25,10:38] I =  I  (SHOULD BE 2))) 
+		(writeSt[26,5:23] (ioArgsNode[26,10:22] ALL DONE!))))
+[END]

@@ -1,0 +1,15 @@
+[Accept]
+(bodyNode[3,10:3] (declarationNode[3,10:27] 
+	(varDeclList[4,5:27] (varDecl[4,9:27] (idsNode[4,9:11] I J) INTEGER 0))) 
+	(statNode[5,5:12] 
+		(writeSt[6,2:26] (ioArgsNode[6,7:25] Ascending loop:)) 
+		(forSt[7,2:12] I 1 5 (NULL) (statNode[7,19:20] 
+			(writeSt[8,4:20] (ioArgsNode[8,9:19] I =  I)))) 
+		(writeSt[10,2:27] (ioArgsNode[10,7:26] Descending loop:)) 
+		(forSt[11,2:12] I 5 1 (negExp[11,21:22] 1) (statNode[11,25:20] 
+			(writeSt[12,4:20] (ioArgsNode[12,9:19] I =  I)))) 
+		(writeSt[14,2:23] (ioArgsNode[14,7:22] Double loop:)) 
+		(forSt[15,2:12] I 1 5 (NULL) (statNode[15,19:14] 
+			(forSt[16,6:14] J I (plusExp[16,20:23] I 10) 2 (statNode[16,31:35] 
+				(writeSt[17,8:35] (ioArgsNode[17,13:34] I,J =  I ,  J))))))))
+[END]

@@ -1,0 +1,27 @@
+[Accept]
+(bodyNode[4,10:3] (declarationNode[4,10:8] 
+	(varDeclList[5,5:33] (varDecl[5,9:33] (idsNode[5,9:17] I ANSWER) INTEGER 0)) 
+	(procedureDeclList[6,5:8] (procedureDecl[6,15:8] FACTORIAL (paramNode[6,24:25]) (NULL) (bodyNode[6,28:7] (declarationNode[6,28:7] 
+		(varDeclList[7,2:22] (varDecl[7,6:22] (idsNode[7,6:6] J) INTEGER 0)) 
+		(procedureDeclList[8,2:7] 
+			(procedureDecl[9,11:7] FACT (paramNode[9,15:16]) (NULL) (bodyNode[9,19:6] (declarationNode[9,19:19]) (statNode[9,25:52] 
+				(IfSt[10,6:52] (ifElementNode[10,6:47] (leExp[10,9:14] J I) ) (statNode[10,47:47]) (NULL))))) 
+			(procedureDecl[12,4:7] MULT (paramNode[12,8:9]) (NULL) (bodyNode[12,12:6] (declarationNode[12,12:26] 
+				(varDeclList[13,6:26] (varDecl[13,10:26] (idsNode[13,10:10] I) INTEGER 0))) 
+				(statNode[14,8:24] 
+					(assignSt[15,6:17] I ANSWER) 
+					(assignSt[16,13:23] I (timesExp[16,18:22] I J)) 
+					(assignSt[17,13:24] ANSWER I)))))) 
+		(statNode[19,9:8] 
+			(assignSt[20,2:13] ANSWER 1) 
+			(assignSt[21,2:8] J 1) 
+			(funcCallExp[22,2:8] FACT (argsNode[22,6:7]))))))) 
+	(statNode[24,5:8] 
+		(writeSt[25,5:63] (ioArgsNode[25,11:62] The first 5 factorials are (in ascending order):)) 
+		(assignSt[26,5:11] I 1) 
+		(loopSt[27,5:8] (statNode[27,8:12] 
+			(IfSt[28,2:25] (ifElementNode[28,2:20] (gtExp[28,5:9] I 5) ) (statNode[28,20:20]) (NULL)) 
+			(funcCallExp[29,9:20] FACTORIAL (argsNode[29,18:19])) 
+			(writeSt[30,9:47] (ioArgsNode[30,14:46] FACTORIAL( I ) =  ANSWER)) 
+			(assignSt[31,2:12] I (plusExp[31,7:11] I 1))))))
+[END]

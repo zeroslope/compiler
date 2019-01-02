@@ -1,0 +1,97 @@
+PROGRAM
+IS
+VAR
+identifier (I)
+,
+identifier (J)
+:
+identifier (INTEGER)
+:=
+integer (0)
+;
+BEGIN
+WRITE
+(
+string ("Ascending loop:")
+)
+;
+FOR
+identifier (I)
+:=
+integer (1)
+TO
+integer (5)
+DO
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+)
+;
+END
+;
+WRITE
+(
+string ("Descending loop:")
+)
+;
+FOR
+identifier (I)
+:=
+integer (5)
+TO
+integer (1)
+BY
+-
+integer (1)
+DO
+WRITE
+(
+string ("I = ")
+,
+identifier (I)
+)
+;
+END
+;
+WRITE
+(
+string ("Double loop:")
+)
+;
+FOR
+identifier (I)
+:=
+integer (1)
+TO
+integer (5)
+DO
+FOR
+identifier (J)
+:=
+identifier (I)
+TO
+identifier (I)
++
+integer (10)
+BY
+integer (2)
+DO
+WRITE
+(
+string ("I,J = ")
+,
+identifier (I)
+,
+string (", ")
+,
+identifier (J)
+)
+;
+END
+;
+END
+;
+END
+;

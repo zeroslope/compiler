@@ -1,0 +1,12 @@
+[Accept]
+(bodyNode[3,10:3] (declarationNode[3,10:22] 
+	(procedureDeclList[4,5:10] (procedureDecl[4,15:10] FOO (paramNode[4,18:34] (paramSection[4,19:24] (idsNode[4,19:19] X) INT) (paramSection[4,27:33] (idsNode[4,27:27] Y) REAL)) REAL (bodyNode[4,42:9] (declarationNode[4,42:49] 
+		(procedureDeclList[5,7:49] (procedureDecl[5,17:49] BAR (paramNode[5,20:21]) (NULL) (bodyNode[5,24:48] (declarationNode[5,24:24]) (statNode[5,30:44] (assignSt[5,32:44] Y (plusExp[5,37:43] X 1.000000))))))) 
+		(statNode[6,11:10] 
+			(funcCallExp[7,9:14] BAR (argsNode[7,12:13])) 
+			(exitSt[8,2:10]))))) 
+	(varDeclList[10,5:22] (varDecl[10,9:22] (idsNode[10,9:9] C) REAL 0))) 
+	(statNode[11,5:41] 
+		(assignSt[12,5:21] C (funcCallExp[12,10:20] FOO (argsNode[12,13:20] 3 (NULL) 2.000000))) 
+		(writeSt[13,5:41] (ioArgsNode[13,10:40] C =  C  (should be 4.0)))))
+[END]

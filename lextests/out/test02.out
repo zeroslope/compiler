@@ -1,0 +1,82 @@
+PROGRAM
+IS
+VAR
+identifier (A)
+,
+identifier (B)
+:
+identifier (REAL)
+:=
+real (0.0)
+;
+identifier (C)
+:
+identifier (REAL)
+:=
+real (0.0)
+;
+BEGIN
+WRITE
+(
+string ("ENTER TWO REALS:")
+)
+;
+READ
+(
+identifier (A)
+,
+identifier (B)
+)
+;
+identifier (C)
+:=
+real (8.0)
+;
+WRITE
+(
+string ("A=")
+,
+identifier (A)
+,
+string (", B=")
+,
+identifier (B)
+,
+string (", C=")
+,
+identifier (C)
+)
+;
+identifier (C)
+:=
+identifier (A)
+-
+(
+-
+identifier (B)
+)
++
+identifier (C)
+;
+identifier (C)
+:=
+identifier (C)
+*
+identifier (A)
++
+integer (1)
+;
+WRITE
+(
+-
+identifier (C)
+/
+(
+identifier (A)
++
+integer (1)
+)
+)
+;
+END
+;
